@@ -48,10 +48,10 @@ function LoginForm() {
         body: JSON.stringify({ password }),
       });
       const payload = (await response.json()) as { error?: string };
-      if (!response.ok) throw new Error(payload.error || "Sign in failed.");
+      if (!response.ok) throw new Error(payload.error || "登录失败。");
       window.location.assign(from);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Sign in failed.");
+      toast.error(error instanceof Error ? error.message : "登录失败。");
     } finally {
       setSaving(false);
     }
@@ -59,12 +59,12 @@ function LoginForm() {
 
   return (
     <AuthFrame
-      title="Sign in"
-      description="Enter the admin password for this instance. Lost it? Use your recovery code — there is no email reset."
+      title="登录"
+      description="输入本实例的管理员密码。忘了？用恢复码找回——没有邮箱重置功能。"
     >
       <form className="space-y-4" onSubmit={(event) => void submit(event)}>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">密码</Label>
           <PasswordInput
             id="password"
             autoComplete="current-password"
@@ -74,11 +74,11 @@ function LoginForm() {
           />
         </div>
         <Button type="submit" className="w-full" disabled={saving || !password}>
-          {saving ? "Signing in…" : "Sign in"}
+          {saving ? "登录中…" : "登录"}
         </Button>
         <p className="text-center text-sm text-muted-foreground">
           <Link href="/recover" className="underline-offset-4 hover:text-foreground hover:underline">
-            Use recovery code
+            使用恢复码
           </Link>
         </p>
       </form>

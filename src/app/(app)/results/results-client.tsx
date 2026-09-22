@@ -12,11 +12,11 @@ import { ENGINE_META, PROVIDER_IDS, type EngineId } from "@/lib/types";
 type BrandOption = { id: string; name: string };
 
 const STATUS_OPTIONS: { value: "all" | VisibilityStatus; label: string }[] = [
-  { value: "all", label: "All statuses" },
-  { value: "cited", label: "Cited" },
-  { value: "mentioned", label: "Mentioned" },
-  { value: "prompted", label: "Prompted, not cited" },
-  { value: "hidden", label: "Not visible" },
+  { value: "all", label: "全部状态" },
+  { value: "cited", label: "被引用" },
+  { value: "mentioned", label: "被提及" },
+  { value: "prompted", label: "被追问，未引用" },
+  { value: "hidden", label: "不可见" },
 ];
 
 export function ResultsClient() {
@@ -57,10 +57,10 @@ export function ResultsClient() {
       if (scanId !== "all") params.set("jobId", scanId);
       const response = await fetch(`/api/logs?${params.toString()}`);
       const payload = (await response.json()) as { rows?: ResultRow[]; error?: string };
-      if (!response.ok) throw new Error(payload.error || "Failed to load results.");
+      if (!response.ok) throw new Error(payload.error || "无法加载结果。");
       setRows(payload.rows ?? []);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to load results.");
+      toast.error(error instanceof Error ? error.message : "无法加载结果。");
     } finally {
       setLoading(false);
     }
@@ -73,20 +73,20 @@ export function ResultsClient() {
   return (
     <>
       <div className="mb-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Job</p>
-        <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">Results</h1>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">任务</p>
+        <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">结果</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Every engine response is kept. Filter by brand, provider, status, or scan.
+          每次引擎响应都会被保留。可按品牌、供应商、状态或扫描筛选。
         </p>
       </div>
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Select value={brandId} onValueChange={setBrandId}>
           <SelectTrigger>
-            <SelectValue placeholder="Brand" />
+            <SelectValue placeholder="品牌" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All brands</SelectItem>
+            <SelectItem value="all">全部品牌</SelectItem>
             {brands.map((brand) => (
               <SelectItem key={brand.id} value={brand.id}>
                 {brand.name}
@@ -96,10 +96,10 @@ export function ResultsClient() {
         </Select>
         <Select value={engine} onValueChange={(value) => setEngine(value as "all" | EngineId)}>
           <SelectTrigger>
-            <SelectValue placeholder="Provider" />
+            <SelectValue placeholder="供应商" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All providers</SelectItem>
+            <SelectItem value="all">全部供应商</SelectItem>
             {PROVIDER_IDS.map((id) => (
               <SelectItem key={id} value={id}>
                 {ENGINE_META[id].label}
@@ -109,7 +109,7 @@ export function ResultsClient() {
         </Select>
         <Select value={status} onValueChange={(value) => setStatus(value as "all" | VisibilityStatus)}>
           <SelectTrigger>
-            <SelectValue placeholder="Status" />
+            <SelectValue placeholder="状态" />
           </SelectTrigger>
           <SelectContent>
             {STATUS_OPTIONS.map((option) => (
@@ -121,10 +121,10 @@ export function ResultsClient() {
         </Select>
         <Select value={scanId} onValueChange={setScanId}>
           <SelectTrigger>
-            <SelectValue placeholder="Scan" />
+            <SelectValue placeholder="扫描" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All scans</SelectItem>
+            <SelectItem value="all">全部扫描</SelectItem>
             {jobs.map((job) => (
               <SelectItem key={job.id} value={job.id}>
                 {job.brandName} · {new Date(job.createdAt).toLocaleString()}
@@ -141,8 +141,8 @@ export function ResultsClient() {
         showBrand
         showTime
         pageSize={20}
-        emptyTitle="No results yet"
-        emptyHint="Run a scan to capture engine responses. Filters apply to stored results."
+        emptyTitle="还没有结果"
+        emptyHint="运行一次扫描来捕获引擎响应。筛选条件适用于已保存的结果。"
       />
     </>
   );

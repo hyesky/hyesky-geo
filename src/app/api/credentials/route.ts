@@ -23,10 +23,14 @@ const keyPatchSchema = z
     gemini: z.string().nullable().optional(),
     deepseek: z.string().nullable().optional(),
     qwen: z.string().nullable().optional(),
+    zhipu: z.string().nullable().optional(),
+    kimi: z.string().nullable().optional(),
+    doubao: z.string().nullable().optional(),
+    hunyuan: z.string().nullable().optional(),
   })
   .refine(
     (value) => PROVIDER_IDS.some((id) => value[id] !== undefined),
-    { message: "Provide at least one key field." },
+    { message: "请至少提供一个密钥字段。" },
   );
 
 const paceValue = z.number().min(MIN_PACE_SEC * 1000).max(MAX_PACE_SEC * 1000);
@@ -38,9 +42,13 @@ const pacePatchSchema = z.object({
       gemini: paceValue.optional(),
       deepseek: paceValue.optional(),
       qwen: paceValue.optional(),
+      zhipu: paceValue.optional(),
+      kimi: paceValue.optional(),
+      doubao: paceValue.optional(),
+      hunyuan: paceValue.optional(),
     })
     .refine((value) => PROVIDER_IDS.some((id) => value[id] !== undefined), {
-      message: "Provide at least one interval.",
+      message: "请至少提供一个时间间隔。",
     }),
 });
 
@@ -71,7 +79,7 @@ export async function GET() {
   try {
     return NextResponse.json(await payloadJson());
   } catch (error) {
-    return jsonError(errorMessage(error, "Could not load credentials."), 500);
+    return jsonError(errorMessage(error, "无法加载密钥。"), 500);
   }
 }
 
@@ -96,7 +104,7 @@ export async function PUT(request: Request) {
     const hints = await upsertWorkspaceKeys(payload as KeyPatch);
     return NextResponse.json(await payloadJson({ hints }));
   } catch (error) {
-    const message = errorMessage(error, "Could not save credentials.");
+    const message = errorMessage(error, "无法保存密钥。");
     const status = error instanceof z.ZodError ? 400 : message.includes("API key") ? 400 : 500;
     return jsonError(message, status);
   }

@@ -123,19 +123,19 @@ export function ProbesDialog({
       setDrafts((current) => ({ ...current, [id]: payload.prompt! }));
       onChanged();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Save failed.");
+      toast.error(error instanceof Error ? error.message : "保存失败。");
     } finally {
       setSavingId(null);
     }
   }
 
   async function removeProbe(id: string) {
-    if (!window.confirm("Delete this probe and its scan results?")) return;
+    if (!window.confirm("删除该探针及其扫描结果？")) return;
     try {
       const response = await fetch(`/api/prompts/${id}`, { method: "DELETE" });
       if (!response.ok) {
         const payload = (await response.json()) as { error?: string };
-        throw new Error(payload.error || "Delete failed.");
+        throw new Error(payload.error || "删除失败。");
       }
       setProbes((current) => current.filter((item) => item.id !== id));
       setDrafts((current) => {
@@ -145,7 +145,7 @@ export function ProbesDialog({
       });
       onChanged();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Delete failed.");
+      toast.error(error instanceof Error ? error.message : "删除失败。");
     }
   }
 
@@ -153,7 +153,7 @@ export function ProbesDialog({
     if (!brandId) return;
     const text = newText.trim();
     if (!text) {
-      toast.error("Enter a probe before adding it.");
+      toast.error("请先输入探针内容。");
       return;
     }
     setAdding(true);
@@ -164,13 +164,13 @@ export function ProbesDialog({
         body: JSON.stringify({ brandId, text, category: newCategory }),
       });
       const payload = (await response.json()) as { prompt?: Probe; error?: string };
-      if (!response.ok || !payload.prompt) throw new Error(payload.error || "Could not add probe.");
+      if (!response.ok || !payload.prompt) throw new Error(payload.error || "无法添加探针。");
       setProbes((current) => [...current, payload.prompt!]);
       setDrafts((current) => ({ ...current, [payload.prompt!.id]: payload.prompt! }));
       setNewText("");
       onChanged();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Add failed.");
+      toast.error(error instanceof Error ? error.message : "添加失败。");
     } finally {
       setAdding(false);
     }
@@ -180,10 +180,9 @@ export function ProbesDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Probes</DialogTitle>
+          <DialogTitle>探针</DialogTitle>
           <DialogDescription>
-            Stored prompts for {brandName}. Edit the generated set or add your own. Scans use whatever
-            is saved here.
+            品牌「{brandName}」保存的探针。可编辑自动生成的探针或自行添加。扫描使用此处保存的内容。
           </DialogDescription>
         </DialogHeader>
 
@@ -194,7 +193,7 @@ export function ProbesDialog({
             ))}
           </div>
         ) : probes.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No probes yet. Add one below.</p>
+          <p className="text-sm text-muted-foreground">还没有探针，在下方添加。</p>
         ) : (
           <ul className="space-y-3">
             {probes.map((probe) => {
@@ -214,7 +213,7 @@ export function ProbesDialog({
                         disabled={!dirty || savingId === probe.id}
                         onClick={() => void saveProbe(probe.id)}
                       >
-                        Save
+                        保存
                       </Button>
                       <Button
                         variant="ghost"
@@ -238,20 +237,20 @@ export function ProbesDialog({
         )}
 
         <div className="space-y-2 border-t border-border pt-3">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Add probe</p>
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">新增探针</p>
           <div className="flex flex-wrap items-start gap-2">
             <CategorySelect value={newCategory} onChange={setNewCategory} />
             <Textarea
               value={newText}
               onChange={(event) => setNewText(event.target.value)}
               className="min-h-[72px] min-w-[12rem] flex-1"
-              placeholder="e.g. Best tools for AI search visibility?"
+              placeholder="例如：AI 搜索可见性最好的工具有哪些？"
             />
           </div>
           <div className="flex justify-end">
             <Button onClick={() => void addProbe()} disabled={adding || newText.trim().length === 0}>
               <Plus />
-              Add probe
+              新增探针
             </Button>
           </div>
         </div>

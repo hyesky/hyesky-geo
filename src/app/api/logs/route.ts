@@ -42,6 +42,6 @@ export async function GET(request: Request) {
     const rows = results.map(toResultRow).filter((row) => (status ? row.status === status : true));
     return NextResponse.json({ rows });
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : "Failed to load logs.", 500);
+    return jsonError(error instanceof Error ? error.message : "加载日志失败。", 500);
   }
 }

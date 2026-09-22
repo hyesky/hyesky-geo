@@ -15,13 +15,13 @@ const schema = z.object({
 export async function POST(request: Request) {
   try {
     if (!(consumeRateLimit(`recover:${clientKey(request)}`))) {
-      return jsonError("Too many attempts. Try again in a few minutes.", 429);
+      return jsonError("尝试次数过多，请几分钟后再试。", 429);
     }
     const payload = schema.parse(await request.json());
     const recoveryCode = await resetAdminWithRecoveryCode(payload.recoveryCode, payload.password);
     const response = NextResponse.json({ recoveryCode });
     return attachSession(response);
   } catch (error) {
-    return jsonError(errorMessage(error, "Could not reset password."), 400);
+    return jsonError(errorMessage(error, "无法重置密码。"), 400);
   }
 }

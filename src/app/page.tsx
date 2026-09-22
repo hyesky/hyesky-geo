@@ -7,8 +7,8 @@ import { HeroCopy } from "@/components/landing/hero-copy";
 import { HeroMonitor } from "@/components/landing/hero-monitor";
 import { ENGINE_META, PROVIDER_IDS } from "@/lib/types";
 
-const DOCS_URL = "https://edgeforgelab.github.io/OpenCiteX/#/";
-const GITHUB_URL = "https://github.com/edgeforgelab/OpenCiteX";
+const DOCS_URL = "https://github.com/hyesky/hyesky-geo";
+const GITHUB_URL = "https://github.com/hyesky/hyesky-geo";
 
 export default function HomePage() {
   return (
@@ -21,14 +21,14 @@ export default function HomePage() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-foreground">
             <Radar className="h-4 w-4" />
           </span>
-          <span className="font-sans text-2xl font-semibold tracking-tight">OpenCiteX</span>
+          <span className="font-sans text-2xl font-semibold tracking-tight">Hyesky GEO</span>
         </Link>
         <div className="flex items-center gap-3">
           <nav className="mr-1 hidden items-center gap-1 sm:flex">
             <Button variant="ghost" size="sm" asChild>
               <a href={DOCS_URL} target="_blank" rel="noopener noreferrer">
                 <BookOpen />
-                Docs
+                文档
               </a>
             </Button>
             <Button variant="ghost" size="sm" asChild>
@@ -43,7 +43,7 @@ export default function HomePage() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground sm:hidden"
-            aria-label="Docs"
+            aria-label="文档"
           >
             <BookOpen className="h-4 w-4" />
           </a>
@@ -81,13 +81,13 @@ export default function HomePage() {
               <Button size="lg" asChild>
                 <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
                   <Github />
-                  Visit GitHub
+                  访问 GitHub
                 </a>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <a href={DOCS_URL} target="_blank" rel="noopener noreferrer">
                   <BookOpen />
-                  Read the docs
+                  阅读文档
                 </a>
               </Button>
             </div>
@@ -99,18 +99,18 @@ export default function HomePage() {
           {[
             {
               icon: KeyRound,
-              title: "BYOK, encrypted at rest",
-              body: "Perplexity, OpenAI, Gemini, DeepSeek, and Qwen keys are encrypted with AES-256-GCM in Postgres. The browser never reads them back; /api/run decrypts only for that request.",
+              title: "自带密钥，静态加密",
+              body: "Perplexity、OpenAI、Gemini、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元的密钥都以 AES-256-GCM 加密存储在 Postgres 中。浏览器永远不会回读；/api/run 仅在单次请求内解密。",
             },
             {
               icon: Rows3,
-              title: "Sequential queue",
-              body: "Client-side job queue hits /api/run one engine at a time with backoff, so rate limits don't torch your first scan.",
+              title: "顺序任务队列",
+              body: "客户端任务队列逐个引擎调用 /api/run 并带退避重试，限流不会毁掉你的第一次扫描。",
             },
             {
               icon: Radar,
-              title: "Unprompted scoring",
-              body: "Mention and citation rates only count probes that do not name your brand, so repeating the question does not inflate visibility.",
+              title: "未点名式评分",
+              body: "提及率与引用率只统计未点名你品牌的探针，重复提问不会虚增可见性。",
             },
           ].map((item) => (
             <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
@@ -124,14 +124,14 @@ export default function HomePage() {
 
       <footer className="relative mx-auto max-w-6xl px-6 pb-10">
         <p className="text-[11px] text-muted-foreground">
-          Open-sourced by{" "}
+          开源项目{" "}
           <a
-            href="https://www.metacitex.com/"
+            href="https://github.com/hyesky/hyesky-geo"
             target="_blank"
             rel="noopener noreferrer"
             className="text-foreground underline-offset-4 hover:underline"
           >
-            MetaCiteX
+            Hyesky
           </a>
         </p>
       </footer>

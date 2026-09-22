@@ -28,7 +28,7 @@ export async function createAdmin(password: string): Promise<string> {
     throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
   }
   const existing = await prisma.admin.findUnique({ where: { id: ADMIN_ID } });
-  if (existing) throw new Error("Admin password is already set.");
+  if (existing) throw new Error("管理员密码已设置。");
 
   const recoveryCode = generateRecoveryCode();
   await prisma.admin.create({
@@ -55,10 +55,10 @@ export async function resetAdminWithRecoveryCode(
     throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
   }
   const admin = await prisma.admin.findUnique({ where: { id: ADMIN_ID } });
-  if (!admin) throw new Error("Setup is not complete.");
+  if (!admin) throw new Error("初始化未完成。");
 
   const ok = await verifySecret(normalizeRecoveryCode(recoveryCode), admin.recoveryCodeHash);
-  if (!ok) throw new Error("Invalid recovery code.");
+  if (!ok) throw new Error("恢复码无效。");
 
   const nextRecovery = generateRecoveryCode();
   await prisma.admin.update({
@@ -93,5 +93,5 @@ export async function hasValidSession(): Promise<boolean> {
 
 export async function unauthorizedIfGuest() {
   if (await hasValidSession()) return null;
-  return jsonError("Sign in required.", 401);
+  return jsonError("需要登录。", 401);
 }

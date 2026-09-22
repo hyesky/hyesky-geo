@@ -31,7 +31,7 @@ export default function RecoverPage() {
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (password !== confirm) {
-      toast.error("Passwords do not match.");
+      toast.error("两次输入的密码不一致。");
       return;
     }
     setSaving(true);
@@ -44,11 +44,11 @@ export default function RecoverPage() {
       });
       const payload = (await response.json()) as { recoveryCode?: string; error?: string };
       if (!response.ok || !payload.recoveryCode) {
-        throw new Error(payload.error || "Reset failed.");
+        throw new Error(payload.error || "重置失败。");
       }
       setNextCode(payload.recoveryCode);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Reset failed.");
+      toast.error(error instanceof Error ? error.message : "重置失败。");
     } finally {
       setSaving(false);
     }
@@ -56,15 +56,15 @@ export default function RecoverPage() {
 
   return (
     <AuthFrame
-      title="Reset with recovery code"
-      description="The old recovery code is consumed. You will get a new one after the reset. If you lost both, run npm run auth:reset on the server."
+      title="使用恢复码重置"
+      description="旧恢复码使用后即失效，重置后会给你一个新恢复码。如果两个都丢了，需要在服务器上运行 npm run auth:reset。"
     >
       {nextCode ? (
         <RecoveryCodePanel code={nextCode} onContinue={() => window.location.assign("/dashboard")} />
       ) : (
         <form className="space-y-4" onSubmit={(event) => void submit(event)}>
           <div className="space-y-2">
-            <Label htmlFor="recovery">Recovery code</Label>
+            <Label htmlFor="recovery">恢复码</Label>
             <Input
               id="recovery"
               value={recoveryCode}
@@ -76,7 +76,7 @@ export default function RecoverPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">New password</Label>
+            <Label htmlFor="password">新密码</Label>
             <PasswordInput
               id="password"
               autoComplete="new-password"
@@ -87,7 +87,7 @@ export default function RecoverPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirm">Confirm new password</Label>
+            <Label htmlFor="confirm">确认新密码</Label>
             <PasswordInput
               id="confirm"
               autoComplete="new-password"
@@ -98,11 +98,11 @@ export default function RecoverPage() {
             />
           </div>
           <Button type="submit" className="w-full" disabled={saving || password.length < 8}>
-            {saving ? "Resetting…" : "Reset password"}
+            {saving ? "重置中…" : "重置密码"}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
             <Link href="/login" className="underline-offset-4 hover:text-foreground hover:underline">
-              Back to sign in
+              返回登录
             </Link>
           </p>
         </form>

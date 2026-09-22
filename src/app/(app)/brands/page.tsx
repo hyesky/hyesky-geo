@@ -104,10 +104,10 @@ export default function BrandsPage() {
     try {
       const response = await fetch("/api/brands");
       const payload = (await response.json()) as { brands?: Brand[]; error?: string };
-      if (!response.ok) throw new Error(payload.error || "Failed to load brands.");
+      if (!response.ok) throw new Error(payload.error || "无法加载品牌。");
       setBrands(payload.brands ?? []);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not load brands.");
+      toast.error(error instanceof Error ? error.message : "无法加载品牌。");
     } finally {
       if (!opts?.silent) setLoading(false);
     }
@@ -150,30 +150,30 @@ export default function BrandsPage() {
         brand?: Brand;
         error?: string;
       };
-      if (!response.ok || !payload.brand) throw new Error(payload.error || "Could not save brand.");
+      if (!response.ok || !payload.brand) throw new Error(payload.error || "无法保存品牌。");
       writeActiveBrandId(payload.brand.id);
-      toast.success(editingId ? "Brand updated." : "Brand created.");
+      toast.success(editingId ? "品牌已更新。" : "品牌已创建。");
       setDialogOpen(false);
       await load();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Save failed.");
+      toast.error(error instanceof Error ? error.message : "保存失败。");
     } finally {
       setSaving(false);
     }
   }
 
   async function removeBrand(id: string) {
-    if (!window.confirm("Delete this brand and its scan results?")) return;
+    if (!window.confirm("确定要删除该品牌及其扫描结果吗？")) return;
     try {
       const response = await fetch(`/api/brands/${id}`, { method: "DELETE" });
       if (!response.ok) {
         const payload = (await response.json()) as { error?: string };
-        throw new Error(payload.error || "Delete failed.");
+        throw new Error(payload.error || "删除失败。");
       }
-      toast.success("Brand deleted.");
+      toast.success("品牌已删除。");
       await load();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Delete failed.");
+      toast.error(error instanceof Error ? error.message : "删除失败。");
     }
   }
 
@@ -181,16 +181,15 @@ export default function BrandsPage() {
     <>
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Workspace</p>
-          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">Brands</h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">工作区</p>
+          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">品牌</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Each brand has its own domain, aliases, competitors, and probes. Creating a brand
-            generates a starting set you can edit afterwards.
+            每个品牌都有自己独立的域名、别名、竞品和探针。创建品牌会生成一组初始探针，之后可以自行编辑。
           </p>
         </div>
         <Button onClick={openCreate}>
           <Plus />
-          Add brand
+          添加品牌
         </Button>
       </div>
 
@@ -207,30 +206,30 @@ export default function BrandsPage() {
       >
         <DialogContent className="max-h-[90vh] max-w-xl overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editingId ? "Edit brand" : "Add brand"}</DialogTitle>
+            <DialogTitle>{editingId ? "编辑品牌" : "添加品牌"}</DialogTitle>
             <DialogDescription>
               {editingId
-                ? "Update brand details. Prompts stay as saved unless you edit them under Prompts."
-                : "Saving generates Brand, Category, Competitor, and Scenario probes from these fields. You can edit them after."}
+                ? "更新品牌详情。探针保持原样，除非你在「探针」中编辑它们。"
+                : "保存时会根据这些字段生成品牌、品类、竞品和场景探针。之后可以编辑。"}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-5">
             <section className="space-y-3">
               <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                Basics
+                基本信息
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Brand name</Label>
+                  <Label htmlFor="name">品牌名称</Label>
                   <Input
                     id="name"
                     value={form.name}
                     onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-                    placeholder="MetaCitex"
+                    placeholder="Hyesky"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="domain">Official domain</Label>
+                  <Label htmlFor="domain">官方网站</Label>
                   <Input
                     id="domain"
                     value={form.targetDomain}
@@ -238,36 +237,33 @@ export default function BrandsPage() {
                       setForm((current) => ({ ...current, targetDomain: event.target.value }))
                     }
                     className="font-mono"
-                    placeholder="metacitex.com"
+                    placeholder="hyesky.com"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div className="space-y-2">
                   <div className="flex items-center gap-1.5">
-                    <Label htmlFor="aliases">Aliases / keywords</Label>
-                    <InfoTip label="About aliases">
-                      Other names the brand might appear as in AI answers: nicknames, product names,
-                      abbreviations, former names. Separate with commas. Used for mention matching — skip
-                      generic words like GEO, AI, or SEO.
+                    <Label htmlFor="aliases">别名 / 关键词</Label>
+                    <InfoTip label="关于别名">
+                      品牌在 AI 回答中可能出现的其他名称：昵称、产品名、缩写、曾用名。用逗号分隔。用于提及匹配——请避免 GEO、AI、SEO 这类通用词。
                     </InfoTip>
-                    <span className="text-xs font-normal text-muted-foreground">optional</span>
+                    <span className="text-xs font-normal text-muted-foreground">可选</span>
                   </div>
                   <Input
                     id="aliases"
                     value={form.aliases}
                     onChange={(event) => setForm((current) => ({ ...current, aliases: event.target.value }))}
-                    placeholder="MetaCitex, OpenCiteX"
+                    placeholder="Hyesky, hyesky-geo"
                   />
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-1.5">
-                    <Label htmlFor="competitors">Competitors</Label>
-                    <InfoTip label="About competitors">
-                      Comma-separated competitor names. Used to detect when a category or scenario answer
-                      names a rival instead of your brand, and to seed Competitor probes.
+                    <Label htmlFor="competitors">竞品</Label>
+                    <InfoTip label="关于竞品">
+                      用逗号分隔的竞品名称。用于识别品类/场景回答中点名了哪家竞品，并生成「竞品」探针。
                     </InfoTip>
-                    <span className="text-xs font-normal text-muted-foreground">optional</span>
+                    <span className="text-xs font-normal text-muted-foreground">可选</span>
                   </div>
                   <Input
                     id="competitors"
@@ -284,16 +280,16 @@ export default function BrandsPage() {
             <section className="space-y-3 border-t border-border pt-4">
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                  Probe config
+                  探针配置
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   {editingId
-                    ? "Used when the brand was created. Existing probes are not overwritten."
-                    : "These fields generate the starting Brand, Category, Competitor, and Scenario probes."}
+                    ? "品牌创建时使用。已存在的探针不会被覆盖。"
+                    : "这些字段会生成初始的「品牌 / 品类 / 竞品 / 场景」四类探针。"}
                 </p>
               </div>
               <div className="space-y-2">
-                <Label>Probe language</Label>
+                <Label>探针语言</Label>
                 <div className="flex w-full rounded-md border border-input p-0.5">
                   {PROBE_LANGUAGES.map((language) => (
                     <button
@@ -314,12 +310,11 @@ export default function BrandsPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-1.5">
-                  <Label htmlFor="industry">Industry category</Label>
-                  <InfoTip label="About industry category">
-                    The market or category your brand competes in, used to generate Category probes like
-                    “best tools for …”. Example: AI search visibility tracking.
+                  <Label htmlFor="industry">行业分类</Label>
+                  <InfoTip label="关于行业分类">
+                    你的品牌所处的市场或品类，用于生成品类探针，例如“最好的……工具有哪些？”。示例：AI 搜索可见性追踪。
                   </InfoTip>
-                  <span className="text-xs font-normal text-muted-foreground">optional</span>
+                  <span className="text-xs font-normal text-muted-foreground">可选</span>
                 </div>
                 <Input
                   id="industry"
@@ -327,17 +322,16 @@ export default function BrandsPage() {
                   onChange={(event) =>
                     setForm((current) => ({ ...current, industryCategory: event.target.value }))
                   }
-                  placeholder="AI search visibility tracking"
+                  placeholder="AI 搜索可见性追踪"
                 />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-1.5">
-                  <Label htmlFor="description">Positioning / job to be done</Label>
-                  <InfoTip label="About positioning">
-                    The customer job or problem you solve, used to generate Scenario probes like “how do
-                    I …”. Example: monitor whether ChatGPT cites my domain.
+                  <Label htmlFor="description">定位 / 要完成的任务</Label>
+                  <InfoTip label="关于定位">
+                    你解决的客户任务或问题，用于生成场景探针，例如“如何……？”。示例：监控 ChatGPT 是否引用我的域名。
                   </InfoTip>
-                  <span className="text-xs font-normal text-muted-foreground">optional</span>
+                  <span className="text-xs font-normal text-muted-foreground">可选</span>
                 </div>
                 <Textarea
                   id="description"
@@ -345,14 +339,14 @@ export default function BrandsPage() {
                   onChange={(event) =>
                     setForm((current) => ({ ...current, description: event.target.value }))
                   }
-                  placeholder="monitor whether ChatGPT cites my domain"
+                  placeholder="监控 ChatGPT 是否引用我的域名"
                 />
               </div>
             </section>
 
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={saving}>
-                Cancel
+                取消
               </Button>
               <Button
                 onClick={() => void persist()}
@@ -361,12 +355,12 @@ export default function BrandsPage() {
                 {saving ? (
                   <>
                     <Loader2 className="animate-spin" />
-                    {editingId ? "Saving…" : "Creating…"}
+                    {editingId ? "保存中…" : "创建中…"}
                   </>
                 ) : editingId ? (
-                  "Save brand"
+                  "保存品牌"
                 ) : (
-                  "Create brand"
+                  "创建品牌"
                 )}
               </Button>
             </div>
@@ -382,18 +376,18 @@ export default function BrandsPage() {
         </div>
       ) : brands.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border px-6 py-16 text-center text-sm text-muted-foreground">
-          No brands yet. Add one to generate probes and run scans.
+          还没有品牌。添加一个品牌即可生成探针并运行扫描。
         </div>
       ) : (
         <div className="rounded-xl border border-border bg-card">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Brand</TableHead>
-                <TableHead>Domain</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Language</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>品牌</TableHead>
+                <TableHead>域名</TableHead>
+                <TableHead>分类</TableHead>
+                <TableHead>语言</TableHead>
+                <TableHead className="text-right">操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -415,7 +409,7 @@ export default function BrandsPage() {
                       <Button variant="outline" size="sm" asChild>
                         <Link href={`/prompts?brandId=${brand.id}`}>
                           <MessageSquare className="h-3.5 w-3.5" />
-                          Prompts ({brand._count?.prompts ?? brand.prompts?.length ?? 0})
+                          探针 ({brand._count?.prompts ?? brand.prompts?.length ?? 0})
                         </Link>
                       </Button>
                       <Button variant="ghost" size="icon" onClick={() => openEdit(brand)}>

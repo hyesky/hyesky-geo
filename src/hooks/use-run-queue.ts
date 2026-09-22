@@ -70,7 +70,7 @@ export function useRunQueue() {
       );
 
       if (items.length === 0) {
-        toast.error("Nothing to run. Add a brand and select at least one engine.");
+        toast.error("没有可运行的探针。请先添加品牌并至少选择一个引擎。");
         return;
       }
 
@@ -139,14 +139,14 @@ export function useRunQueue() {
             error?: string;
           };
           if (!response.ok || !payload.result) {
-            throw new Error(payload.error || "Engine run failed.");
+            throw new Error(payload.error || "引擎运行失败。");
           }
           usedAnalyzer = Boolean(payload.analyzed);
           input.onResult?.(payload.result);
         } catch (error) {
           errors += 1;
           toast.error(
-            `${item.engine} failed: ${error instanceof Error ? error.message : "unknown error"}`,
+            `${item.engine} 失败：${error instanceof Error ? error.message : "未知错误"}`,
           );
         }
 
@@ -179,11 +179,11 @@ export function useRunQueue() {
       }));
 
       if (cancelled) {
-        toast.message("Queue stopped.");
+        toast.message("队列已停止。");
       } else if (errors === 0) {
-        toast.success("Visibility scan complete.");
+        toast.success("可见性扫描完成。");
       } else {
-        toast.message(`Scan finished with ${errors} error${errors === 1 ? "" : "s"}.`);
+        toast.message(`扫描完成，共 ${errors} 个错误。`);
       }
     },
     [],

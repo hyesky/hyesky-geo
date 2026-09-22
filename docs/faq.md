@@ -48,4 +48,4 @@ Not supported. One admin cookie for the instance.
 
 ## Where is the documentation on GitHub?
 
-This folder: [`docs/`](https://github.com/edgeforgelab/OpenCiteX/tree/main/docs).
+This folder: [`docs/`](https://github.com/hyesky/hyesky-geo/tree/main/docs).

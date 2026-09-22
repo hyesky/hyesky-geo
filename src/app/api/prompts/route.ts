@@ -31,7 +31,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ prompts });
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : "Failed to load prompts.",
+      error instanceof Error ? error.message : "加载探针失败。",
       500,
     );
   }
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   try {
     const payload = createSchema.parse(await request.json());
     const brand = await prisma.brand.findUnique({ where: { id: payload.brandId }, select: { id: true } });
-    if (!brand) return jsonError("Brand not found.", 404);
+    if (!brand) return jsonError("未找到品牌。", 404);
 
     const prompt = await prisma.prompt.create({
       data: {
@@ -55,6 +55,6 @@ export async function POST(request: Request) {
     });
     return NextResponse.json({ prompt }, { status: 201 });
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to create prompt."), 400);
+    return jsonError(errorMessage(error, "创建探针失败。"), 400);
   }
 }

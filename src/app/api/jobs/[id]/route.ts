@@ -26,10 +26,10 @@ export async function GET(
       where: { id: params.id },
       include: jobInclude,
     });
-    if (!job) return jsonError("Job not found.", 404);
+    if (!job) return jsonError("未找到任务。", 404);
     return NextResponse.json({ job: serializeJob(job) });
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : "Failed to load job.", 500);
+    return jsonError(error instanceof Error ? error.message : "加载任务失败。", 500);
   }
 }
 
@@ -42,7 +42,7 @@ export async function PATCH(
   try {
     const payload = patchSchema.parse(await request.json());
     const existing = await prisma.job.findUnique({ where: { id: params.id } });
-    if (!existing) return jsonError("Job not found.", 404);
+    if (!existing) return jsonError("未找到任务。", 404);
 
     const terminal = payload.status && ["completed", "cancelled", "failed"].includes(payload.status);
     const job = await prisma.job.update({
@@ -65,6 +65,6 @@ export async function PATCH(
 
     return NextResponse.json({ job: serializeJob(job) });
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to update job."), 400);
+    return jsonError(errorMessage(error, "更新任务失败。"), 400);
   }
 }

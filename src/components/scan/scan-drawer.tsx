@@ -94,19 +94,19 @@ export function ScanDrawer() {
         aria-hidden={!scan.drawerOpen}
       >
         <div className="border-b border-border px-6 py-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Scan</p>
-          <h2 className="mt-1 font-sans text-2xl font-semibold tracking-tight">Run scan</h2>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">扫描</p>
+          <h2 className="mt-1 font-sans text-2xl font-semibold tracking-tight">开始扫描</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Sequential BYOK calls, one probe × provider at a time. Each run is stored as a scan plus results.
+            顺序执行 BYOK 调用，每次一个探针 × 供应商。每次运行都会保存为一次扫描及对应结果。
           </p>
         </div>
 
         <div className="flex-1 space-y-6 overflow-y-auto px-6 py-5">
           <div className="space-y-2">
-            <Label>Brand</Label>
+            <Label>品牌</Label>
             <Select value={brandId || undefined} onValueChange={setBrandId} disabled={loadingBrands}>
               <SelectTrigger>
-                <SelectValue placeholder={loadingBrands ? "Loading…" : "Select a brand"} />
+                <SelectValue placeholder={loadingBrands ? "加载中…" : "选择一个品牌"} />
               </SelectTrigger>
               <SelectContent className="z-[80]">
                 {brands.map((brand) => (
@@ -122,7 +122,7 @@ export function ScanDrawer() {
           </div>
 
           <div className="space-y-2">
-            <Label>Providers</Label>
+            <Label>供应商</Label>
             <div className="flex flex-col gap-2">
               {PROVIDER_IDS.map((engine) => {
                 const active = engines.includes(engine);
@@ -145,7 +145,7 @@ export function ScanDrawer() {
                       {ENGINE_META[engine].label}
                     </span>
                     <span className="font-mono text-[11px]">
-                      {ready ? (active ? "on" : "off") : "no key"}
+                      {ready ? (active ? "开" : "关") : "无密钥"}
                     </span>
                   </button>
                 );
@@ -153,23 +153,23 @@ export function ScanDrawer() {
             </div>
             {!hydrated || PROVIDER_IDS.some((id) => configured[id]) ? null : (
               <p className="text-xs text-muted-foreground">
-                Save keys in{" "}
+                请先在{" "}
                 <Link href="/byok" className="underline-offset-4 hover:underline" onClick={scan.closeDrawer}>
-                  API Keys
+                  API 密钥
                 </Link>{" "}
-                first.
+                中保存密钥。
               </p>
             )}
           </div>
 
           <div className="rounded-lg border border-border bg-muted/40 px-3 py-2 font-mono text-xs text-muted-foreground">
-            {promptCount} probes × {readyEngines.length} providers = {total} calls
+            {promptCount} 个探针 × {readyEngines.length} 个供应商 = {total} 次调用
           </div>
         </div>
 
         <div className="flex justify-end gap-2 border-t border-border px-6 py-4">
           <Button variant="outline" onClick={scan.closeDrawer}>
-            Cancel
+            取消
           </Button>
           <Button
             disabled={scan.starting || !brandId || readyEngines.length === 0 || total === 0}
@@ -183,7 +183,7 @@ export function ScanDrawer() {
             }}
           >
             <Play className="h-3.5 w-3.5" />
-            {scan.starting ? "Starting…" : "Start scan"}
+            {scan.starting ? "正在启动…" : "开始扫描"}
           </Button>
         </div>
       </aside>

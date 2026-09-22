@@ -68,14 +68,13 @@ export function VisibilityTrend({
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
         <div>
           <CardTitle className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-            AI visibility
-            <InfoTip label="About visibility trend">
-              Unprompted mention rate for each completed scan. The solid line is your brand; dashed
-              lines are competitors listed on the brand. Y-axis is percent of answers that mention
-              that name.
+            AI 可见性趋势
+            <InfoTip label="关于可见性趋势">
+              每次完成的扫描中「未点名」提及率。实线是你的品牌；虚线是品牌页列出的竞品。
+              Y 轴为提到该名称的回答占比。
             </InfoTip>
           </CardTitle>
-          <p className="mt-1 text-xs text-muted-foreground">Mention rate over time</p>
+          <p className="mt-1 text-xs text-muted-foreground">提及率随时间变化</p>
         </div>
         <Radar className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
@@ -84,7 +83,7 @@ export function VisibilityTrend({
           <Skeleton className="h-[280px] w-full" />
         ) : points.length === 0 ? (
           <div className="flex h-[280px] items-center justify-center text-sm text-muted-foreground">
-            Run a scan to plot visibility over time.
+            运行扫描以绘制可见性趋势。
           </div>
         ) : (
           <>
@@ -93,7 +92,7 @@ export function VisibilityTrend({
                 <span className="h-0.5 w-5 rounded-full" style={{ background: BRAND_COLOR }} />
                 {brandName}
                 <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-1.5 py-px text-[10px] font-medium text-sky-800 dark:text-sky-300">
-                  You
+                  你
                 </span>
               </span>
               {competitorNames.map((name, index) => (
@@ -146,7 +145,7 @@ export function VisibilityTrend({
                                   />
                                   {name}
                                   {isYou ? (
-                                    <span className="text-[10px] text-sky-800 dark:text-sky-300">You</span>
+                                    <span className="text-[10px] text-sky-800 dark:text-sky-300">你</span>
                                   ) : null}
                                 </span>
                                 <span className="font-mono tabular-nums">

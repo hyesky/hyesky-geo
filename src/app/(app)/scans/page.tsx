@@ -23,11 +23,11 @@ import { ENGINE_META } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const STATUS_LABEL: Record<JobRecord["status"], string> = {
-  queued: "Queued",
-  running: "Running",
-  completed: "Completed",
-  cancelled: "Cancelled",
-  failed: "Failed",
+  queued: "排队中",
+  running: "运行中",
+  completed: "已完成",
+  cancelled: "已取消",
+  failed: "失败",
 };
 
 const STATUS_CLASS: Record<JobRecord["status"], string> = {
@@ -52,10 +52,10 @@ export default function ScanPage() {
     try {
       const response = await fetch("/api/jobs");
       const payload = (await response.json()) as { jobs?: JobRecord[]; error?: string };
-      if (!response.ok) throw new Error(payload.error || "Failed to load scans.");
+      if (!response.ok) throw new Error(payload.error || "无法加载扫描记录。");
       setJobs(payload.jobs ?? []);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to load scans.");
+      toast.error(error instanceof Error ? error.message : "无法加载扫描记录。");
     } finally {
       setLoading(false);
     }
@@ -78,23 +78,22 @@ export default function ScanPage() {
     <>
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Job</p>
-          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">Scan</h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">任务</p>
+          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">扫描</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Each sequential run is stored as a scan. Open results to inspect every probe × provider
-            response.
+            每次顺序运行都会保存为一次扫描。打开结果可查看每个探针 × 供应商的响应。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {scan.running ? (
             <Button variant="outline" onClick={scan.stop}>
               <Square className="h-3.5 w-3.5" />
-              Stop queue
+              停止队列
             </Button>
           ) : (
             <Button onClick={() => scan.openDrawer()}>
               <Play className="h-3.5 w-3.5" />
-              Run scan
+              开始扫描
             </Button>
           )}
         </div>
@@ -120,9 +119,9 @@ export default function ScanPage() {
         </div>
       ) : jobs.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border bg-card px-6 py-16 text-center">
-          <p className="font-sans text-2xl font-semibold tracking-tight">No scans yet</p>
+          <p className="font-sans text-2xl font-semibold tracking-tight">还没有扫描记录</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Start a sequential scan to create the first record.
+            开始一次顺序扫描来创建第一条记录。
           </p>
         </div>
       ) : (
@@ -130,12 +129,12 @@ export default function ScanPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Started</TableHead>
-                <TableHead>Brand</TableHead>
-                <TableHead>Providers</TableHead>
-                <TableHead>Progress</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Results</TableHead>
+                <TableHead>开始时间</TableHead>
+                <TableHead>品牌</TableHead>
+                <TableHead>供应商</TableHead>
+                <TableHead>进度</TableHead>
+                <TableHead>状态</TableHead>
+                <TableHead className="text-right">结果</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,9 +144,9 @@ export default function ScanPage() {
                 const total = live ? scan.total : job.total;
                 const status = live ? "running" : job.status === "running" ? "cancelled" : job.status;
                 const statusLabel = live
-                  ? "Running"
+                  ? "运行中"
                   : job.status === "running"
-                    ? "Interrupted"
+                    ? "已中断"
                     : STATUS_LABEL[job.status];
                 return (
                   <TableRow key={job.id} className={cn(live && "bg-accent/40")}>
@@ -168,7 +167,7 @@ export default function ScanPage() {
                     <TableCell className="font-mono text-xs">
                       {completed}/{total}
                       {job.errors > 0 || (live && scan.errors > 0)
-                        ? ` · ${live ? scan.errors : job.errors} err`
+                        ? ` · ${live ? scan.errors : job.errors} 个错误`
                         : ""}
                     </TableCell>
                     <TableCell>
@@ -178,7 +177,7 @@ export default function ScanPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="outline" size="sm" asChild>
-                        <Link href={`/results?scanId=${job.id}`}>View results</Link>
+                        <Link href={`/results?scanId=${job.id}`}>查看结果</Link>
                       </Button>
                     </TableCell>
                   </TableRow>

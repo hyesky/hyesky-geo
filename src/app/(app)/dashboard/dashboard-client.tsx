@@ -111,8 +111,8 @@ export function DashboardClient() {
     <>
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">GEO radar</p>
-          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">Visibility dashboard</h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">GEO 雷达</p>
+          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">可见性仪表盘</h1>
           <div className="mt-2 max-w-2xl text-sm text-muted-foreground">
             {loading && brands.length === 0 && !brand ? (
               <>
@@ -121,17 +121,18 @@ export function DashboardClient() {
               </>
             ) : brand ? (
               <p>
-                Tracking {brand.name} on{" "}
-                <span className="font-mono text-foreground">{brand.targetDomain}</span>.
-                Visibility, citations, intercepts, and rank exclude prompts that name your brand.
+                正在追踪{" "}
+                <span className="text-foreground">{brand.name}</span>（
+                <span className="font-mono text-foreground">{brand.targetDomain}</span>）。
+                可见性、引用、拦截与排名均不含明确点名你品牌的探针。
               </p>
             ) : (
               <p>
-                Add a brand in{" "}
+                先在{" "}
                 <Link href="/brands" className="text-foreground underline-offset-4 hover:underline">
-                  Brands
+                  品牌
                 </Link>{" "}
-                to start measuring AI citations.
+                中添加品牌，开始测量 AI 引用。
               </p>
             )}
           </div>
@@ -146,7 +147,7 @@ export function DashboardClient() {
               }}
             >
               <SelectTrigger className="w-[220px]">
-                <SelectValue placeholder="Select brand" />
+                <SelectValue placeholder="选择品牌" />
               </SelectTrigger>
               <SelectContent>
                 {brands.map((item) => (
@@ -160,12 +161,12 @@ export function DashboardClient() {
           {scan.running ? (
             <Button variant="outline" onClick={scan.stop}>
               <Square className="h-3.5 w-3.5" />
-              Stop queue
+              停止扫描
             </Button>
           ) : (
             <Button onClick={() => scan.openDrawer({ brandId: brand?.id })} disabled={loading}>
               <Play className="h-3.5 w-3.5" />
-              Run scan
+              开始扫描
             </Button>
           )}
         </div>
@@ -175,7 +176,7 @@ export function DashboardClient() {
 
       <div className="mt-6 grid min-w-0 gap-6 lg:grid-cols-2">
         <VisibilityTrend
-          brandName={brand?.name ?? "Your brand"}
+          brandName={brand?.name ?? "你的品牌"}
           competitorNames={competitorNames}
           points={history}
           loading={loading && history.length === 0}

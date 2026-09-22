@@ -17,11 +17,11 @@ export function ScanWidget() {
     <div className="fixed bottom-4 right-4 z-40 w-[min(100%-2rem,22rem)] rounded-xl border border-border bg-card/95 p-3 shadow-lg backdrop-blur">
       <div className="mb-2 flex items-center justify-between gap-2">
         <Link href="/scans" className="text-xs font-medium hover:underline">
-          Scan in progress
+          扫描进行中
         </Link>
         <Button variant="outline" size="sm" onClick={scan.stop}>
           <Square className="h-3 w-3" />
-          Stop
+          停止
         </Button>
       </div>
       <ScanProgress

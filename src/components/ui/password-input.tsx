@@ -21,7 +21,7 @@ export function PasswordInput({ className, ...props }: Omit<ComponentProps<typeo
         variant="outline"
         size="icon"
         onClick={() => setShow((current) => !current)}
-        aria-label={show ? "Hide password" : "Show password"}
+        aria-label={show ? "隐藏密码" : "显示密码"}
       >
         {show ? <EyeOff /> : <Eye />}
       </Button>

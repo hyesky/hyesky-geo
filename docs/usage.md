@@ -8,7 +8,7 @@ Workspace-wide. Every brand reuses the same keys.
 
 - Paste a key per provider you want to scan. Status shows configured vs empty.
 - **Interval** — seconds to wait after each call to that provider (`0`–`60`). Saved on blur. Use this to stay under rate limits.
-- **Analysis model** — optional. If string matching does not find a mention, OpenCiteX can send the answer to one saved provider (no web search) and allow it to mark a mention. It cannot *remove* a mention the rules already found. Citations always stay URL-based. **Rules only** skips the extra call.
+- **Analysis model** — optional. If string matching does not find a mention, Hyesky GEO can send the answer to one saved provider (no web search) and allow it to mark a mention. It cannot *remove* a mention the rules already found. Citations always stay URL-based. **Rules only** skips the extra call.
 
 Clearing a key asks for confirmation. The raw key is never shown again after save.
 

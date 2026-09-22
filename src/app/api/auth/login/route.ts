@@ -13,17 +13,17 @@ const schema = z.object({
 export async function POST(request: Request) {
   try {
     if (!(consumeRateLimit(`login:${clientKey(request)}`))) {
-      return jsonError("Too many attempts. Try again in a few minutes.", 429);
+      return jsonError("尝试次数过多，请几分钟后再试。", 429);
     }
     if (!(await isSetupComplete())) {
-      return jsonError("Setup is not complete.", 409);
+      return jsonError("初始化未完成。", 409);
     }
     const payload = schema.parse(await request.json());
     const ok = await verifyAdminPassword(payload.password);
-    if (!ok) return jsonError("Invalid password.", 401);
+    if (!ok) return jsonError("密码无效。", 401);
     const response = NextResponse.json({ ok: true });
     return attachSession(response);
   } catch (error) {
-    return jsonError(errorMessage(error, "Could not sign in."), 400);
+    return jsonError(errorMessage(error, "无法登录。"), 400);
   }
 }

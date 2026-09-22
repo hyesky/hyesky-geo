@@ -36,11 +36,11 @@ export async function GET(
         prompts: { select: promptSelect, orderBy: [{ category: "asc" }, { text: "asc" }] },
       },
     });
-    if (!brand) return jsonError("Brand not found.", 404);
+    if (!brand) return jsonError("未找到品牌。", 404);
     return NextResponse.json({ brand });
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : "Failed to load brand.",
+      error instanceof Error ? error.message : "加载品牌失败。",
       500,
     );
   }
@@ -89,7 +89,7 @@ export async function PATCH(
     return NextResponse.json({ brand });
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : "Failed to update brand.",
+      error instanceof Error ? error.message : "更新品牌失败。",
       400,
     );
   }
@@ -106,7 +106,7 @@ export async function DELETE(
     return NextResponse.json({ ok: true });
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : "Failed to delete brand.",
+      error instanceof Error ? error.message : "删除品牌失败。",
       400,
     );
   }

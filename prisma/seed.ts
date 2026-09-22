@@ -12,12 +12,12 @@ async function main() {
 
   const brand = await prisma.brand.create({
     data: {
-      name: "MetaCitex",
-      targetDomain: "metacitex.com",
-      aliases: ["MetaCitex", "OpenCiteX"],
-      industryCategory: "AI search visibility tracking",
-      description: "monitor whether ChatGPT, Perplexity, or Gemini cite my domain",
-      language: "en",
+      name: "Hyesky",
+      targetDomain: "hyesky.com",
+      aliases: ["Hyesky", "hyesky-geo"],
+      industryCategory: "AI 搜索可见性监控",
+      description: "监控 ChatGPT、Perplexity、Gemini、DeepSeek、智谱、Kimi、豆包、混元等引擎是否引用我的域名",
+      language: "zh",
       competitors: ["Profound", "Goodie AI", "Peec AI"],
     },
   });

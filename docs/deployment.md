@@ -2,7 +2,7 @@
 
 ## Vercel + Supabase
 
-1. Import [the GitHub repo](https://github.com/edgeforgelab/OpenCiteX) in Vercel (or use the Deploy button on the README).
+1. Import [the GitHub repo](https://github.com/hyesky/hyesky-geo) in Vercel (or use the Deploy button on the README).
 2. Create a Supabase project and copy the Postgres URIs ([Configuration](configuration.md)).
 3. In Vercel → Settings → Environment Variables, set at least:
    - `DATABASE_URL` — pooled URI for the app
@@ -21,7 +21,7 @@ The first time you deploy (and whenever a release adds `prisma/migrations/…`),
 **Easiest: from your laptop**, with the **direct** connection string (not PgBouncer port `6543`):
 
 ```bash
-cd OpenCiteX
+cd Hyesky GEO
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/postgres?schema=YOUR_SCHEMA" npx prisma migrate deploy
 ```
 
@@ -66,7 +66,7 @@ Point a reverse proxy at the Node process. Keep `.env` off the public repo.
 
 ## Seed
 
-`npx prisma db seed` creates the MetaCitex sample brand **only if no brand exists**. Optional on production.
+`npx prisma db seed` creates the Hyesky sample brand **only if no brand exists**. Optional on production.
 
 ## Updating
 

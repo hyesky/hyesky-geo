@@ -24,7 +24,7 @@ export async function GET() {
     });
     return NextResponse.json({ jobs: jobs.map(serializeJob) });
   } catch (error) {
-    return jsonError(error instanceof Error ? error.message : "Failed to load jobs.", 500);
+    return jsonError(error instanceof Error ? error.message : "加载任务失败。", 500);
   }
 }
 
@@ -45,7 +45,7 @@ export async function PUT(request: Request) {
     await persistMetricsForJobs(active.map((job) => job.id));
     return NextResponse.json({ abandoned: result.count });
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to abandon jobs."), 400);
+    return jsonError(errorMessage(error, "取消任务失败。"), 400);
   }
 }
 
@@ -58,9 +58,9 @@ export async function POST(request: Request) {
       where: { id: payload.brandId },
       include: { prompts: { orderBy: [{ category: "asc" }, { text: "asc" }] } },
     });
-    if (!brand) return jsonError("Brand not found.", 404);
+    if (!brand) return jsonError("未找到品牌。", 404);
     if (brand.prompts.length === 0) {
-      return jsonError("Save the brand so probes can be generated.", 400);
+      return jsonError("请先保存品牌，才能生成探针。", 400);
     }
 
     const keys = await readWorkspaceKeys();
@@ -99,6 +99,6 @@ export async function POST(request: Request) {
       { status: 201 },
     );
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to create job."), 400);
+    return jsonError(errorMessage(error, "创建任务失败。"), 400);
   }
 }

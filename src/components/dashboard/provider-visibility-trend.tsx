@@ -16,6 +16,10 @@ const ENGINE_COLORS: Record<EngineId, string> = {
   gemini: "#8E75B2",
   deepseek: "#4D6BFE",
   qwen: "#615CED",
+  zhipu: "#3859FF",
+  kimi: "#5271FF",
+  doubao: "#3370FF",
+  hunyuan: "#0052D9",
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -128,14 +132,13 @@ export function ProviderVisibilityTrend({
       <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
         <div>
           <CardTitle className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-            Visibility by provider
-            <InfoTip label="About provider visibility">
-              Unprompted mention rate for each engine. The sparkline is the last 7 days. The percent
-              is the latest scan that included that provider; the change is versus the scan before
-              that.
+            各厂商可见性
+            <InfoTip label="关于厂商可见性">
+              每个引擎的「未点名」提及率。迷你趋势线为最近 7 天。百分比取包含该厂商的最近一次扫描，
+              变化量是与上一次扫描的对比。
             </InfoTip>
           </CardTitle>
-          <p className="mt-1 text-xs text-muted-foreground">Last 7 days · latest scan</p>
+          <p className="mt-1 text-xs text-muted-foreground">最近 7 天 · 最近一次扫描</p>
         </div>
         <Sparkles className="h-4 w-4 text-muted-foreground" />
       </CardHeader>

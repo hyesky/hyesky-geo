@@ -19,16 +19,16 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin()),
-  title: "OpenCiteX — GEO visibility dashboard",
+  title: "Hyesky GEO — AI 搜索可见性监控",
   description:
-    "Open-source generative engine optimization radar. Measure brand mentions and citations across Perplexity, OpenAI, Gemini, DeepSeek, and Qwen.",
+    "开源的生成式引擎优化（GEO）雷达。跨 Perplexity、OpenAI、Gemini、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元等引擎统计品牌提及与引用。",
 };
 
 const themeBootScript = `(function(){try{var t=localStorage.getItem("opencitex.theme");var d=t!=="light";document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light";}catch(e){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark";}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>

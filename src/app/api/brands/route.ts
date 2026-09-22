@@ -8,8 +8,8 @@ import { syncBrandPrompts } from "@/lib/sync-prompts";
 export const dynamic = "force-dynamic";
 
 const brandSchema = z.object({
-  name: z.string().min(1, "Brand name is required."),
-  targetDomain: z.string().min(1, "Target domain is required."),
+  name: z.string().min(1, "品牌名称必填。"),
+  targetDomain: z.string().min(1, "目标域名必填。"),
   aliases: z.array(z.string()).default([]),
   competitors: z.array(z.string()).default([]),
   industryCategory: z.string().optional().nullable(),
@@ -38,7 +38,7 @@ export async function GET() {
     return NextResponse.json({ brands });
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : "Failed to load brands.",
+      error instanceof Error ? error.message : "加载品牌失败。",
       500,
     );
   }
@@ -71,6 +71,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ brand: created, promptsReplaced: sync.replaced }, { status: 201 });
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to create brand."), 400);
+    return jsonError(errorMessage(error, "创建品牌失败。"), 400);
   }
 }

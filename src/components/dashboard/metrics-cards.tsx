@@ -36,12 +36,10 @@ export function MetricsCards({
       <Card>
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
           <CardTitle className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-            AI visibility
-            <InfoTip label="About AI visibility">
-              Share of the latest unprompted answers that mention your brand. Unprompted means the
-              probe text does not name you. Mentions use name and alias matching; an analysis model
-              can catch paraphrases if you configured one. Prompts that already name the brand are
-              excluded.
+            AI 可见性
+            <InfoTip label="关于 AI 可见性">
+              最近一批「未点名」回答中提到你品牌的占比。未点名指探针文字不含你的名字。
+              提及采用名称与别名匹配；若配置了分析模型，还能识别改写表述。点名品牌的探针不参与统计。
             </InfoTip>
           </CardTitle>
           <Radar className="h-4 w-4 text-muted-foreground" />
@@ -65,12 +63,12 @@ export function MetricsCards({
           )}
           <p className="mt-2 font-mono text-xs text-muted-foreground">
             {hasProbes
-              ? `${metrics!.mentionedCount}/${metrics!.unpromptedRuns} unprompted mentions`
-              : "Brand-named prompts are excluded."}
+              ? `${metrics!.mentionedCount}/${metrics!.unpromptedRuns} 次未点名提及`
+              : "已排除点名品牌的探针。"}
           </p>
           {visibilityLow ? (
             <p className="mt-1 text-xs text-sky-800/80 dark:text-sky-300/80">
-              Below 80% — category answers often skip you.
+              低于 80% — 品类类回答经常跳过你。
             </p>
           ) : null}
         </CardContent>
@@ -79,11 +77,10 @@ export function MetricsCards({
       <Card>
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
           <CardTitle className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-            Citation rate
-            <InfoTip label="About citation rate">
-              Share of those same unprompted answers that cite your official domain as a URL.
-              Saying the brand name without a clickable official link does not count. Uses the
-              latest result for each probe and engine.
+            引用率
+            <InfoTip label="关于引用率">
+              同一批「未点名」回答中、以 URL 形式引用你官方域名的占比。仅提到品牌名而没有可点击的
+              官方链接不计入。取每个探针与引擎的最新结果。
             </InfoTip>
           </CardTitle>
           <Quote className="h-4 w-4 text-muted-foreground" />
@@ -108,12 +105,12 @@ export function MetricsCards({
           <RateBar value={hasProbes ? metrics!.citationRate : 0} />
           <p className="mt-2 font-mono text-xs text-muted-foreground">
             {hasProbes
-              ? `${metrics!.citedCount}/${metrics!.unpromptedRuns} answers cite your domain`
-              : "No unprompted probes in this scan."}
+              ? `${metrics!.citedCount}/${metrics!.unpromptedRuns} 个回答引用了你的域名`
+              : "本次扫描没有未点名探针。"}
           </p>
           {hasProbes && metrics!.mentionedCount > metrics!.citedCount ? (
             <p className="mt-1 text-xs text-teal-800/80 dark:text-teal-300/80">
-              Mentioned without a clickable official URL.
+              提到但未提供可点击的官方链接。
             </p>
           ) : null}
         </CardContent>
@@ -122,11 +119,10 @@ export function MetricsCards({
       <Card>
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
           <CardTitle className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-            Interception rate
-            <InfoTip label="About interception rate">
-              Share of category and scenario probes that do not name your brand, where you are not
-              mentioned but a listed competitor is. Brand and competitor probes are not included.
-              The competitor named most often is shown below the number.
+            拦截率
+            <InfoTip label="关于拦截率">
+              不点名你品牌的品类/场景探针中，你未被提及但列出的竞品被提及的占比。
+              品牌和竞品探针不参与统计。数字下方显示最常见的拦截竞品。
             </InfoTip>
           </CardTitle>
           <Swords className="h-4 w-4 text-muted-foreground" />
@@ -150,12 +146,12 @@ export function MetricsCards({
           )}
           <p className="mt-2 font-mono text-xs text-muted-foreground">
             {hasMarket
-              ? `${metrics!.interceptCount}/${metrics!.marketRuns} category/scenario answers name a competitor instead`
-              : "Needs category or scenario probes."}
+              ? `${metrics!.interceptCount}/${metrics!.marketRuns} 个品类/场景回答提到竞品而非你`
+              : "需要品类或场景探针。"}
           </p>
           {metrics?.topInterceptor ? (
             <p className="mt-1 text-xs text-rose-800/80 dark:text-rose-300/80">
-              Most often intercepted by {metrics.topInterceptor}.
+              最常被 {metrics.topInterceptor} 拦截。
             </p>
           ) : null}
         </CardContent>
@@ -164,11 +160,10 @@ export function MetricsCards({
       <Card>
         <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
           <CardTitle className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
-            Avg. citation rank
-            <InfoTip label="About average citation rank">
-              Mean position of your official domain among cited hosts, only in unprompted answers
-              that do cite you. #1 is the first source listed, not an AI-generated ranking.
-              Unranked means no official-domain citations yet.
+            平均引用排名
+            <InfoTip label="关于平均引用排名">
+              在被引用的「未点名」回答中，你官方域名在引用来源中的平均位置。#1 表示第一个列出的来源，
+              并非 AI 生成的排名。显示「无排名」表示还没有官方域名引用。
             </InfoTip>
           </CardTitle>
           <Hash className="h-4 w-4 text-muted-foreground" />
@@ -190,7 +185,7 @@ export function MetricsCards({
                 text={
                   hasProbes && metrics!.averageRank != null
                     ? `#${metrics!.averageRank.toFixed(1)}`
-                    : "Unranked"
+                    : "无排名"
                 }
                 speed={22}
               />
@@ -198,12 +193,12 @@ export function MetricsCards({
           )}
           <p className="mt-2 font-mono text-xs text-muted-foreground">
             {metrics?.rankedCount
-              ? `Mean position among ${metrics.rankedCount} cited sources, not a numbered AI list`
-              : "No official-domain citations yet."}
+              ? `${metrics.rankedCount} 个被引用来源的平均位置，非 AI 数字榜单`
+              : "还没有官方域名引用。"}
           </p>
           {rankWarn ? (
             <p className="mt-1 text-xs text-indigo-800/80 dark:text-indigo-300/80">
-              Outside the first three cited sources — or not cited.
+              排在前三个被引用来源之外——或未被引用。
             </p>
           ) : null}
         </CardContent>

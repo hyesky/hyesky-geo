@@ -144,26 +144,23 @@ export default function ByokPage() {
   return (
     <TooltipProvider delayDuration={300}>
       <div className="mb-8">
-        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Workspace</p>
-        <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">API Keys</h1>
+        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">工作区</p>
+        <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">API 密钥</h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Keys are encrypted with AES-256-GCM in Postgres and never sent back to the browser. They
-          are shared across all brands. Set a per-provider call interval to stay under rate limits.
+          密钥以 AES-256-GCM 加密存储在 Postgres 中，绝不会回传浏览器。密钥在所有品牌间共享。可为每个厂商设置调用间隔以规避限流。
         </p>
       </div>
 
       <div className="mb-6 flex flex-col gap-4 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <p className="inline-flex items-center gap-1.5 text-sm font-medium">
-            Analysis model
-            <InfoTip label="About the analysis model">
-              After a scan, if string matching does not find the brand, this model reads the answer
-              and can mark a mention. Citations still come from URLs. Prefer a cheap chat model such
-              as DeepSeek or Qwen. Leave as Rules only to skip the extra call.
+            分析模型
+            <InfoTip label="关于分析模型">
+              扫描后，若字符串匹配未命中品牌，该模型会阅读回答并判定是否存在提及。引用仍基于 URL。建议选便宜的对话模型，例如 DeepSeek 或 Qwen。选择「仅规则」可跳过额外调用。
             </InfoTip>
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Optional. Used only when the answer does not already name the brand.
+            可选。仅在回答未点名品牌时使用。
           </p>
         </div>
         <Select
@@ -173,17 +170,17 @@ export default function ByokPage() {
               try {
                 await saveAnalyzer(value === "none" ? null : (value as ProviderId));
               } catch (error) {
-                toast.error(error instanceof Error ? error.message : "Could not save analysis model.");
+                toast.error(error instanceof Error ? error.message : "无法保存分析模型。");
               }
             })();
           }}
           disabled={!hydrated || readyIds.length === 0}
         >
           <SelectTrigger className="h-9 w-full sm:w-[16rem]">
-            <SelectValue placeholder="Rules only" />
+            <SelectValue placeholder="仅规则" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="none">Rules only</SelectItem>
+            <SelectItem value="none">仅规则</SelectItem>
             {readyIds.map((id) => (
               <SelectItem key={id} value={id}>
                 {ENGINE_META[id].label} · {ANALYZER_MODELS[id]}
@@ -197,19 +194,18 @@ export default function ByokPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Provider</TableHead>
-              <TableHead>Model</TableHead>
+              <TableHead>厂商</TableHead>
+              <TableHead>模型</TableHead>
               <TableHead className="w-[16rem]">
                 <span className="inline-flex items-center gap-1.5">
-                  Interval
-                  <InfoTip label="About call interval">
-                    Seconds to wait after a call to this provider before calling it again during a
-                    scan. Other providers are not delayed by this value.
+                  间隔（秒）
+                  <InfoTip label="关于调用间隔">
+                    扫描中对同一厂商两次调用之间的等待秒数。其他厂商不受该值影响。
                   </InfoTip>
                 </span>
               </TableHead>
-              <TableHead className="w-[1%] whitespace-nowrap">Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="w-[1%] whitespace-nowrap">状态</TableHead>
+              <TableHead className="text-right">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -236,7 +232,7 @@ export default function ByokPage() {
                               rel="noreferrer"
                               className="text-[11px] text-muted-foreground underline-offset-4 hover:underline"
                             >
-                              Get an API key
+                              获取 API 密钥
                             </a>
                           }
                         />
@@ -271,7 +267,7 @@ export default function ByokPage() {
                             ) : paceSaved === id ? (
                               <>
                                 <Check className="h-3 w-3" />
-                                Saved
+                                已保存
                               </>
                             ) : null}
                           </span>
@@ -281,7 +277,7 @@ export default function ByokPage() {
                         {ready ? (
                           <div className="flex items-center gap-1">
                             <Badge variant="cited" className="font-mono">
-                              saved · ••••{hints[id]}
+                              已保存 · ••••{hints[id]}
                             </Badge>
                             <Tooltip>
                               <TooltipTrigger asChild>
@@ -289,24 +285,24 @@ export default function ByokPage() {
                                   variant="ghost"
                                   size="icon"
                                   disabled={saving}
-                                  aria-label={`Clear ${meta.label} key`}
+                                  aria-label={`清除 ${meta.label} 密钥`}
                                   onClick={() => setClearing(id)}
                                   className="h-6 w-6 text-destructive hover:translate-y-0 hover:bg-destructive/10 hover:text-destructive"
                                 >
                                   <X className="h-3.5 w-3.5" />
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent>Clear key</TooltipContent>
+                              <TooltipContent>清除密钥</TooltipContent>
                             </Tooltip>
                           </div>
                         ) : (
-                          <span className="text-xs text-muted-foreground">not set</span>
+                          <span className="text-xs text-muted-foreground">未设置</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
                         <Button variant="outline" size="sm" onClick={() => openSet(id)}>
                           <KeyRound />
-                          {ready ? "Replace" : "Set key"}
+                          {ready ? "替换" : "设置密钥"}
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -333,24 +329,24 @@ export default function ByokPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {clearing ? <ProviderLogo id={clearing} className="h-5 w-5" /> : null}
-              {clearingMeta ? `Clear ${clearingMeta.label} key?` : "Clear key?"}
+              {clearingMeta ? `清除 ${clearingMeta.label} 密钥？` : "清除密钥？"}
             </DialogTitle>
             <DialogDescription>
               {clearingMeta
-                ? `This removes the encrypted ${clearingMeta.label} key from the workspace. Scans for this provider will stop until you set a new key.`
-                : "This removes the encrypted key from the workspace."}
+                ? `将从工作区移除加密的 ${clearingMeta.label} 密钥。该厂商的扫描将停止，直到你重新设置新密钥。`
+                : "将从工作区移除加密的密钥。"}
               {clearing && analyzer === clearing
-                ? " It is also the analysis model, which will reset to Rules only."
+                ? " 它同时也是分析模型，将重置为「仅规则」。"
                 : ""}
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-2">
             <Button variant="outline" disabled={saving} onClick={() => setClearing(null)}>
-              Cancel
+              取消
             </Button>
             <Button variant="destructive" disabled={saving} onClick={() => void clearKey()}>
               {saving ? <Loader2 className="animate-spin" /> : null}
-              {saving ? "Clearing…" : "Clear key"}
+              {saving ? "清除中…" : "清除密钥"}
             </Button>
           </div>
         </DialogContent>
@@ -369,16 +365,16 @@ export default function ByokPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {editing ? <ProviderLogo id={editing} className="h-5 w-5" /> : null}
-              {editingMeta ? `Set ${editingMeta.label} key` : "Set key"}
+              {editingMeta ? `设置 ${editingMeta.label} 密钥` : "设置密钥"}
             </DialogTitle>
             <DialogDescription>
               {editingMeta
-                ? `Used for ${editingMeta.label} ${editingMeta.model} scans. The key is encrypted at rest.`
-                : "The key is encrypted at rest."}
+                ? `用于 ${editingMeta.label}（${editingMeta.model}）扫描。密钥静态加密存储。`
+                : "密钥静态加密存储。"}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
-            <Label htmlFor="api-key">API key</Label>
+            <Label htmlFor="api-key">API 密钥</Label>
             <div className="flex gap-2">
               <Input
                 id="api-key"
@@ -400,10 +396,10 @@ export default function ByokPage() {
             </div>
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setEditing(null)}>
-                Cancel
+                取消
               </Button>
               <Button onClick={() => void persist()} disabled={saving || !draft.trim()}>
-                Save key
+                保存密钥
               </Button>
             </div>
           </div>

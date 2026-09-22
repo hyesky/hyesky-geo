@@ -20,6 +20,10 @@ enum Engine {
   gemini
   deepseek
   qwen
+  zhipu
+  kimi
+  doubao
+  hunyuan
 }
 
 enum JobStatus {

@@ -14,7 +14,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         className,
       )}
       role="group"
-      aria-label="Color theme"
+      aria-label="颜色主题"
     >
       <button
         type="button"

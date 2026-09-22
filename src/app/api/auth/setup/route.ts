@@ -14,16 +14,16 @@ const schema = z.object({
 export async function POST(request: Request) {
   try {
     if (!(consumeRateLimit(`setup:${clientKey(request)}`))) {
-      return jsonError("Too many attempts. Try again in a few minutes.", 429);
+      return jsonError("尝试次数过多，请几分钟后再试。", 429);
     }
     if (await isSetupComplete()) {
-      return jsonError("Admin password is already set. Sign in instead.", 409);
+      return jsonError("管理员密码已设置。 Sign in instead.", 409);
     }
     const payload = schema.parse(await request.json());
     const recoveryCode = await createAdmin(payload.password);
     const response = NextResponse.json({ recoveryCode, setupComplete: true });
     return attachSession(response);
   } catch (error) {
-    return jsonError(errorMessage(error, "Could not complete setup."), 400);
+    return jsonError(errorMessage(error, "无法完成初始化设置。"), 400);
   }
 }

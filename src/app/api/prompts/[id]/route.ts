@@ -29,7 +29,7 @@ export async function PATCH(
     });
     return NextResponse.json({ prompt });
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to update prompt."), 400);
+    return jsonError(errorMessage(error, "更新探针失败。"), 400);
   }
 }
 
@@ -43,6 +43,6 @@ export async function DELETE(
     await prisma.prompt.delete({ where: { id: params.id } });
     return NextResponse.json({ ok: true });
   } catch (error) {
-    return jsonError(errorMessage(error, "Failed to delete prompt."), 400);
+    return jsonError(errorMessage(error, "删除探针失败。"), 400);
   }
 }

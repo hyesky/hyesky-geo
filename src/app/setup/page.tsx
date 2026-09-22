@@ -35,7 +35,7 @@ export default function SetupPage() {
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (password !== confirm) {
-      toast.error("Passwords do not match.");
+      toast.error("两次输入的密码不一致。");
       return;
     }
     setSaving(true);
@@ -48,11 +48,11 @@ export default function SetupPage() {
       });
       const payload = (await response.json()) as { recoveryCode?: string; error?: string };
       if (!response.ok || !payload.recoveryCode) {
-        throw new Error(payload.error || "Setup failed.");
+        throw new Error(payload.error || "初始化失败。");
       }
       setRecoveryCode(payload.recoveryCode);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Setup failed.");
+      toast.error(error instanceof Error ? error.message : "初始化失败。");
     } finally {
       setSaving(false);
     }
@@ -60,15 +60,15 @@ export default function SetupPage() {
 
   return (
     <AuthFrame
-      title="Create admin password"
-      description="One password for this OpenCiteX instance. There is no email reset — you will get a recovery code next."
+      title="创建管理员密码"
+      description="为这个实例设置一个密码。没有邮箱找回机制——下一步会给你一个恢复码。"
     >
       {recoveryCode ? (
         <RecoveryCodePanel code={recoveryCode} onContinue={() => window.location.assign("/dashboard")} />
       ) : (
         <form className="space-y-4" onSubmit={(event) => void submit(event)}>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">密码</Label>
             <PasswordInput
               id="password"
               autoComplete="new-password"
@@ -79,7 +79,7 @@ export default function SetupPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirm">Confirm password</Label>
+            <Label htmlFor="confirm">确认密码</Label>
             <PasswordInput
               id="confirm"
               autoComplete="new-password"
@@ -90,7 +90,7 @@ export default function SetupPage() {
             />
           </div>
           <Button type="submit" className="w-full" disabled={saving || password.length < 8}>
-            {saving ? "Saving…" : "Create password"}
+            {saving ? "保存中…" : "创建密码"}
           </Button>
         </form>
       )}

@@ -61,7 +61,7 @@ function CategoryToggle({
     <div
       className="flex items-center rounded-lg border border-border bg-card p-0.5"
       role="group"
-      aria-label="Prompt type"
+      aria-label="探针类型"
     >
       {CATEGORIES.map((category) => (
         <button
@@ -107,7 +107,7 @@ export function PromptsClient() {
     try {
       const brandsRes = await fetch("/api/brands");
       const brandsPayload = (await brandsRes.json()) as { brands?: BrandOption[]; error?: string };
-      if (!brandsRes.ok) throw new Error(brandsPayload.error || "Failed to load brands.");
+      if (!brandsRes.ok) throw new Error(brandsPayload.error || "加载品牌失败。");
       const list = (brandsPayload.brands ?? []).map((item) => ({ id: item.id, name: item.name }));
       setBrands(list);
 
@@ -127,10 +127,10 @@ export function PromptsClient() {
 
       const promptsRes = await fetch(`/api/prompts?brandId=${selected.id}`);
       const promptsPayload = (await promptsRes.json()) as { prompts?: PromptRow[]; error?: string };
-      if (!promptsRes.ok) throw new Error(promptsPayload.error || "Failed to load prompts.");
+      if (!promptsRes.ok) throw new Error(promptsPayload.error || "加载探针失败。");
       setPrompts(promptsPayload.prompts ?? []);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to load prompts.");
+      toast.error(error instanceof Error ? error.message : "加载探针失败。");
     } finally {
       setLoading(false);
     }
@@ -171,11 +171,11 @@ export function PromptsClient() {
   async function saveCreate() {
     const text = draftText.trim();
     if (!brandId) {
-      toast.error("Select a brand first.");
+      toast.error("请先选择品牌。");
       return;
     }
     if (!text) {
-      toast.error("Prompt text cannot be empty.");
+      toast.error("探针内容不能为空。");
       return;
     }
     setSaving(true);
@@ -186,12 +186,12 @@ export function PromptsClient() {
         body: JSON.stringify({ brandId, text, category: draftCategory }),
       });
       const payload = (await response.json()) as { prompt?: PromptRow; error?: string };
-      if (!response.ok || !payload.prompt) throw new Error(payload.error || "Could not add prompt.");
+      if (!response.ok || !payload.prompt) throw new Error(payload.error || "无法添加探针。");
       setCreating(false);
-      toast.success("Prompt added.");
+      toast.success("探针已添加。");
       await load();
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not add prompt.");
+      toast.error(error instanceof Error ? error.message : "无法添加探针。");
     } finally {
       setSaving(false);
     }
@@ -201,7 +201,7 @@ export function PromptsClient() {
     if (!editing) return;
     const text = draftText.trim();
     if (!text) {
-      toast.error("Prompt text cannot be empty.");
+      toast.error("探针内容不能为空。");
       return;
     }
     setSaving(true);
@@ -212,14 +212,14 @@ export function PromptsClient() {
         body: JSON.stringify({ text, category: draftCategory }),
       });
       const payload = (await response.json()) as { prompt?: PromptRow; error?: string };
-      if (!response.ok || !payload.prompt) throw new Error(payload.error || "Could not save prompt.");
+      if (!response.ok || !payload.prompt) throw new Error(payload.error || "无法保存探针。");
       setPrompts((current) =>
         current.map((item) => (item.id === editing.id ? { ...item, ...payload.prompt! } : item)),
       );
       setEditing(null);
-      toast.success("Prompt saved.");
+      toast.success("探针已保存。");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not save prompt.");
+      toast.error(error instanceof Error ? error.message : "无法保存探针。");
     } finally {
       setSaving(false);
     }
@@ -232,13 +232,13 @@ export function PromptsClient() {
       const response = await fetch(`/api/prompts/${deleting.id}`, { method: "DELETE" });
       if (!response.ok) {
         const payload = (await response.json()) as { error?: string };
-        throw new Error(payload.error || "Delete failed.");
+        throw new Error(payload.error || "删除失败。");
       }
       setPrompts((current) => current.filter((item) => item.id !== deleting.id));
       setDeleting(null);
-      toast.success("Prompt deleted.");
+      toast.success("探针已删除。");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Could not delete prompt.");
+      toast.error(error instanceof Error ? error.message : "无法删除探针。");
     } finally {
       setSaving(false);
     }
@@ -248,18 +248,17 @@ export function PromptsClient() {
     <>
       <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Workspace</p>
-          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">Prompts</h1>
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">工作区</p>
+          <h1 className="mt-1 font-sans text-4xl font-semibold tracking-tight">探针</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Probes sent to AI engines during a scan. Add, edit, or delete for the selected brand.
-            Deleting a prompt also deletes its scan results.
+            扫描时发送给 AI 引擎的探针。可为所选品牌新增、编辑或删除，删除探针会一并删除其扫描结果。
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {brands.length > 0 ? (
             <Select value={brandId || undefined} onValueChange={onBrandChange}>
               <SelectTrigger className="w-[220px]">
-                <SelectValue placeholder="Select brand" />
+                <SelectValue placeholder="选择品牌" />
               </SelectTrigger>
               <SelectContent>
                 {brands.map((brand) => (
@@ -272,7 +271,7 @@ export function PromptsClient() {
           ) : null}
           <Button onClick={openCreate} disabled={!brandId}>
             <Plus />
-            Add prompt
+            新增探针
           </Button>
         </div>
       </div>
@@ -281,9 +280,9 @@ export function PromptsClient() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Type</TableHead>
-              <TableHead>Prompt</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>类型</TableHead>
+              <TableHead>探针</TableHead>
+              <TableHead className="text-right">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -301,16 +300,16 @@ export function PromptsClient() {
                       <TableCell colSpan={3} className="py-10 text-center text-sm text-muted-foreground">
                         {brands.length === 0 ? (
                           <>
-                            Add a brand in{" "}
+                            请先在{" "}
                             <Link href="/brands" className="text-foreground underline-offset-4 hover:underline">
-                              Brands
+                              品牌
                             </Link>{" "}
-                            first, then generate or create prompts.
+                            页添加品牌，再生成或创建探针。
                           </>
                         ) : selectedBrandName ? (
-                          `No prompts for ${selectedBrandName} yet.`
+                          `「${selectedBrandName}」还没有探针。`
                         ) : (
-                          "No prompts yet."
+                          "还没有探针。"
                         )}
                       </TableCell>
                     </TableRow>
@@ -361,35 +360,35 @@ export function PromptsClient() {
           }}
         >
           <DialogHeader>
-            <DialogTitle>Add prompt</DialogTitle>
+            <DialogTitle>新增探针</DialogTitle>
             <DialogDescription>
               {selectedBrandName
-                ? `This probe will be included the next time you scan ${selectedBrandName}.`
-                : "This probe will be included the next time you scan the brand."}
+                ? `下次扫描「${selectedBrandName}」时会包含这条探针。`
+                : "下次扫描该品牌时会包含这条探针。"}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>Type</Label>
+              <Label>类型</Label>
               <CategoryToggle value={draftCategory} onChange={setDraftCategory} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="new-prompt">Prompt</Label>
+              <Label htmlFor="new-prompt">探针</Label>
               <Textarea
                 id="new-prompt"
                 value={draftText}
                 onChange={(event) => setDraftText(event.target.value)}
                 className="min-h-[96px]"
-                placeholder="e.g. Best tools for AI search visibility?"
+                placeholder="例如：AI 搜索可见性最好的工具有哪些？"
               />
             </div>
             <div className="flex justify-end gap-2">
               <Button variant="outline" disabled={saving} onClick={() => setCreating(false)}>
-                Cancel
+                取消
               </Button>
               <Button onClick={() => void saveCreate()} disabled={saving || !draftText.trim()}>
                 {saving ? <Loader2 className="animate-spin" /> : null}
-                {saving ? "Adding…" : "Add prompt"}
+                {saving ? "添加中…" : "新增探针"}
               </Button>
             </div>
           </div>
@@ -411,18 +410,18 @@ export function PromptsClient() {
           }}
         >
           <DialogHeader>
-            <DialogTitle>Edit prompt</DialogTitle>
+            <DialogTitle>编辑探针</DialogTitle>
             <DialogDescription>
-              {editing ? `Stored probe for ${editing.brand.name}.` : "Edit this probe."}
+              {editing ? `「${editing.brand.name}」下保存的探针。` : "编辑这条探针。"}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1.5">
-              <Label>Type</Label>
+              <Label>类型</Label>
               <CategoryToggle value={draftCategory} onChange={setDraftCategory} />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="edit-prompt">Prompt</Label>
+              <Label htmlFor="edit-prompt">探针</Label>
               <Textarea
                 id="edit-prompt"
                 value={draftText}
@@ -432,11 +431,11 @@ export function PromptsClient() {
             </div>
             <div className="flex justify-end gap-2">
               <Button variant="outline" disabled={saving} onClick={() => setEditing(null)}>
-                Cancel
+                取消
               </Button>
               <Button onClick={() => void saveEdit()} disabled={saving || !draftText.trim()}>
                 {saving ? <Loader2 className="animate-spin" /> : null}
-                {saving ? "Saving…" : "Save"}
+                {saving ? "保存中…" : "保存"}
               </Button>
             </div>
           </div>
@@ -458,19 +457,19 @@ export function PromptsClient() {
           }}
         >
           <DialogHeader>
-            <DialogTitle>Delete prompt?</DialogTitle>
+            <DialogTitle>删除探针？</DialogTitle>
             <DialogDescription>
-              This removes the probe and all of its scan results
-              {deleting ? ` for ${deleting.brand.name}` : ""}.
+              将删除该探针及其全部扫描结果
+              {deleting ? `（品牌：${deleting.brand.name}）` : ""}。
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-2">
             <Button variant="outline" disabled={saving} onClick={() => setDeleting(null)}>
-              Cancel
+              取消
             </Button>
             <Button variant="destructive" disabled={saving} onClick={() => void confirmDelete()}>
               {saving ? <Loader2 className="animate-spin" /> : null}
-              {saving ? "Deleting…" : "Delete"}
+              {saving ? "删除中…" : "删除"}
             </Button>
           </div>
         </DialogContent>

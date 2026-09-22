@@ -6,7 +6,7 @@ import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function InfoTip({
-  label = "More information",
+  label = "更多信息",
   children,
 }: {
   label?: string;

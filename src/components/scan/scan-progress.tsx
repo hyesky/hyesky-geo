@@ -41,7 +41,7 @@ export function ScanProgress({
             className="min-w-0 truncate text-foreground"
           />
         </div>
-        <span className="shrink-0">{errors} errors</span>
+        <span className="shrink-0">{errors} 个错误</span>
       </div>
       <Progress value={percent} />
     </div>

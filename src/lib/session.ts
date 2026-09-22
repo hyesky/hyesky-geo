@@ -18,7 +18,7 @@ function getSessionSecret(): string | null {
 
 function getCrypto(): Crypto {
   if (globalThis.crypto?.subtle) return globalThis.crypto;
-  throw new Error("Web Crypto is not available.");
+  throw new Error("当前环境不支持 Web Crypto。");
 }
 
 function toBase64Url(bytes: ArrayBuffer | Uint8Array): string {
@@ -56,7 +56,7 @@ async function hmacSign(secret: string, message: string): Promise<string> {
 export async function createSessionToken(): Promise<string> {
   const secret = getSessionSecret();
   if (!secret) {
-    throw new Error("Set AUTH_SECRET or ENCRYPTION_KEY before creating a session.");
+    throw new Error("创建会话前请先设置 AUTH_SECRET 或 ENCRYPTION_KEY。");
   }
   const exp = Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS;
   const payload = `v1.${exp}`;

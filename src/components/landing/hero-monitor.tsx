@@ -7,9 +7,9 @@ const VISIBILITY = [18, 22, 28, 31, 29, 35, 41, 44, 48, 52, 55, 58, 61, 67];
 const CITATION = [8, 10, 12, 14, 13, 18, 21, 24, 26, 29, 32, 36, 39, 42];
 
 const ROWS = [
-  { prompt: "Best GEO platforms in 2026", status: "cited" as const, label: "Cited" },
-  { prompt: "Best tools to track AI visibility", status: "mentioned" as const, label: "Mentioned" },
-  { prompt: "How to get cited in AI search", status: "hidden" as const, label: "Hidden" },
+  { prompt: "2026 年最好的 GEO 平台", status: "cited" as const, label: "已引用" },
+  { prompt: "追踪 AI 可见性的最佳工具", status: "mentioned" as const, label: "已提及" },
+  { prompt: "如何被 AI 搜索引用", status: "hidden" as const, label: "不可见" },
 ];
 
 function toPoints(values: number[], width: number, height: number, max = 100) {
@@ -30,7 +30,7 @@ function Sparkfield() {
   const visArea = `0,${height} ${vis} ${width},${height}`;
 
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="h-16 w-full" role="img" aria-label="14-day AI visibility trend">
+    <svg viewBox={`0 0 ${width} ${height}`} className="h-16 w-full" role="img" aria-label="14 天 AI 可见性趋势">
       <defs>
         <linearGradient id="visFill" x1="0" x2="0" y1="0" y2="1">
           <stop offset="0%" stopColor="rgb(16 185 129)" stopOpacity="0.28" />
@@ -66,16 +66,16 @@ export function HeroMonitor() {
         <div className="flex items-center justify-between border-b border-border px-3 py-2">
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            <p className="text-xs font-medium">Live visibility</p>
+            <p className="text-xs font-medium">实时可见性</p>
           </div>
-          <p className="font-mono text-[10px] text-muted-foreground">metacitex.com · 14d</p>
+          <p className="font-mono text-[10px] text-muted-foreground">hyesky-geo · 14d</p>
         </div>
 
         <div className="grid grid-cols-3 divide-x divide-border border-b border-border">
           {[
-            { label: "Visibility", value: "67%" },
-            { label: "Citations", value: "42%" },
-            { label: "Interceptor", value: "Profound" },
+            { label: "可见性", value: "67%" },
+            { label: "引用率", value: "42%" },
+            { label: "拦截者", value: "Profound" },
           ].map((item) => (
             <div key={item.label} className="px-3 py-2">
               <p className="text-[10px] text-muted-foreground">{item.label}</p>
@@ -86,13 +86,13 @@ export function HeroMonitor() {
 
         <div className="px-3 pt-2">
           <div className="mb-0.5 flex items-center justify-between font-mono text-[10px] text-muted-foreground">
-            <span>vis vs cite</span>
+            <span>可见性 vs 引用</span>
             <span className="inline-flex items-center gap-2">
               <span className="inline-flex items-center gap-1">
-                <span className="h-1 w-2.5 rounded-sm bg-emerald-500" /> vis
+                <span className="h-1 w-2.5 rounded-sm bg-emerald-500" /> 可见性
               </span>
               <span className="inline-flex items-center gap-1">
-                <span className="h-px w-2.5 border-t border-dashed border-violet-500" /> cite
+                <span className="h-px w-2.5 border-t border-dashed border-violet-500" /> 引用
               </span>
             </span>
           </div>

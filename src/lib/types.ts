@@ -1,6 +1,16 @@
 import type { Engine, PromptCategory } from "@prisma/client";
 
-export const PROVIDER_IDS = ["perplexity", "openai", "gemini", "deepseek", "qwen"] as const;
+export const PROVIDER_IDS = [
+  "perplexity",
+  "openai",
+  "gemini",
+  "deepseek",
+  "qwen",
+  "zhipu",
+  "kimi",
+  "doubao",
+  "hunyuan",
+] as const;
 export type ProviderId = (typeof PROVIDER_IDS)[number];
 export type ApiKeys = Record<ProviderId, string>;
 export type KeyHints = Record<ProviderId, string | null>;
@@ -13,6 +23,10 @@ export function emptyKeys(): ApiKeys {
     gemini: "",
     deepseek: "",
     qwen: "",
+    zhipu: "",
+    kimi: "",
+    doubao: "",
+    hunyuan: "",
   };
 }
 
@@ -23,6 +37,10 @@ export function emptyHints(): KeyHints {
     gemini: null,
     deepseek: null,
     qwen: null,
+    zhipu: null,
+    kimi: null,
+    doubao: null,
+    hunyuan: null,
   };
 }
 
@@ -108,13 +126,41 @@ export const ENGINE_META: Record<
     placeholder: "sk-...",
     docs: "https://bailian.console.aliyun.com/",
   },
+  zhipu: {
+    label: "智谱 GLM",
+    model: "glm-4-flash",
+    accent: "text-foreground",
+    placeholder: "xxxxx.xxxxx",
+    docs: "https://open.bigmodel.cn/usercenter/apikeys",
+  },
+  kimi: {
+    label: "Kimi 月之暗面",
+    model: "moonshot-v1-8k",
+    accent: "text-foreground",
+    placeholder: "sk-...",
+    docs: "https://platform.moonshot.cn/console/api-keys",
+  },
+  doubao: {
+    label: "豆包(火山方舟)",
+    model: "doubao-seed-1-6-250615",
+    accent: "text-foreground",
+    placeholder: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    docs: "https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey",
+  },
+  hunyuan: {
+    label: "腾讯混元",
+    model: "hunyuan-turbo-latest",
+    accent: "text-foreground",
+    placeholder: "sk-...",
+    docs: "https://console.cloud.tencent.com/hunyuan/api-key",
+  },
 };
 
 export const CATEGORY_META: Record<PromptCategory, { label: string; dotClass: string }> = {
-  brand: { label: "Brand", dotClass: "bg-blue-500" },
-  category: { label: "Category", dotClass: "bg-violet-500" },
-  competitor: { label: "Competitor", dotClass: "bg-red-500" },
-  scenario: { label: "Scenario", dotClass: "bg-teal-500" },
+  brand: { label: "品牌", dotClass: "bg-blue-500" },
+  category: { label: "品类", dotClass: "bg-violet-500" },
+  competitor: { label: "竞品", dotClass: "bg-red-500" },
+  scenario: { label: "场景", dotClass: "bg-teal-500" },
 };
 
 export const PROBE_LANGUAGES = [
@@ -156,6 +202,10 @@ export function emptyPaceMs(): ProviderPaceMs {
     gemini: DEFAULT_PACE_MS,
     deepseek: DEFAULT_PACE_MS,
     qwen: DEFAULT_PACE_MS,
+    zhipu: DEFAULT_PACE_MS,
+    kimi: DEFAULT_PACE_MS,
+    doubao: DEFAULT_PACE_MS,
+    hunyuan: DEFAULT_PACE_MS,
   };
 }
 
@@ -178,6 +228,10 @@ export const ANALYZER_MODELS: Record<ProviderId, string> = {
   gemini: "gemini-3.6-flash",
   deepseek: "deepseek-chat",
   qwen: "qwen-plus",
+  zhipu: "glm-4-flash",
+  kimi: "moonshot-v1-8k",
+  doubao: "doubao-seed-1-6-250615",
+  hunyuan: "hunyuan-turbo-latest",
 };
 
 export function normalizeAnalyzer(value: unknown): ProviderId | null {

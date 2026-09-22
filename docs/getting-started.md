@@ -5,8 +5,8 @@ This path runs **Postgres in Docker** and the **Next.js app on Node**. You need 
 ## 1. Clone and env
 
 ```bash
-git clone https://github.com/edgeforgelab/OpenCiteX.git
-cd OpenCiteX
+git clone https://github.com/hyesky/hyesky-geo.git
+cd Hyesky GEO
 cp .env.example .env
 ```
 
@@ -44,7 +44,7 @@ npm run dev
 3. **Brands** — add a brand (name, official domain, aliases, competitors, category, language). Saving generates Brand / Category / Competitor / Scenario probes.
 4. **Dashboard** — pick the brand and **Run scan**.
 
-The seed creates a **MetaCitex** example brand. Edit or delete it under Brands.
+The seed creates a **Hyesky** example brand. Edit or delete it under Brands.
 
 ## Scripts
 

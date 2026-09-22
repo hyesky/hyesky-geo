@@ -1,6 +1,6 @@
-# OpenCiteX documentation
+# Hyesky GEO documentation
 
-OpenCiteX is a self-hosted **GEO** (Generative Engine Optimization) radar. It asks AI search engines the kinds of questions a buyer would ask, then scores whether they **mention** your brand and **cite** your domain.
+Hyesky GEO is a self-hosted **GEO** (Generative Engine Optimization) radar. It asks AI search engines the kinds of questions a buyer would ask, then scores whether they **mention** your brand and **cite** your domain.
 
 Keys stay on your server (BYOK). One admin password. No SaaS markup.
 
@@ -16,7 +16,7 @@ Keys stay on your server (BYOK). One admin password. No SaaS markup.
 
 ## What it measures
 
-Each scan sends your **probes** to the engines you enable. OpenCiteX stores every answer, then computes:
+Each scan sends your **probes** to the engines you enable. Hyesky GEO stores every answer, then computes:
 
 - **AI visibility** — share of *unprompted* answers that mention you
 - **Citation rate** — share of those answers that link your official domain
@@ -35,7 +35,7 @@ Dashboard rates **exclude probes that already name your brand**, so repeating yo
 | DeepSeek | `deepseek-chat` | Provider search (when available) |
 | Qwen | `qwen-plus` | Provider search (when available) |
 
-You only pay the providers. OpenCiteX never sees your keys in the browser after save.
+You only pay the providers. Hyesky GEO never sees your keys in the browser after save.
 
 ## Status
 
@@ -43,4 +43,4 @@ MVP: one operator, many brands, no SSO or team roles. Fine for a laptop, a small
 
 ## License
 
-[MIT](https://github.com/edgeforgelab/OpenCiteX/blob/main/LICENSE)
+[MIT](https://github.com/hyesky/hyesky-geo/blob/main/LICENSE)

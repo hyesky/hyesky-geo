@@ -31,12 +31,12 @@ export async function POST(request: Request) {
       include: { brand: true },
     });
 
-    if (!prompt) return jsonError("Prompt not found.", 404);
+    if (!prompt) return jsonError("未找到探针。", 404);
 
     if (payload.jobId) {
       const job = await prisma.job.findUnique({ where: { id: payload.jobId } });
-      if (!job) return jsonError("Job not found.", 404);
-      if (job.status === "cancelled") return jsonError("Job was cancelled.", 409);
+      if (!job) return jsonError("未找到任务。", 404);
+      if (job.status === "cancelled") return jsonError("任务已被取消。", 409);
     }
 
     const [keys, analyzer, paceMs] = await Promise.all([
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
         isMentioned: parsed.is_mentioned,
         hasCitation: parsed.has_citation,
         rankPosition: parsed.rank_position,
-        rawText: output.text || "(empty engine response)",
+        rawText: output.text || "(引擎返回空响应)",
         citations: parsed.cited_domains.length > 0 ? parsed.cited_domains : output.citations,
       },
       include: {
@@ -98,6 +98,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const status = error instanceof z.ZodError ? 400 : 502;
-    return jsonError(errorMessage(error, "Engine run failed."), status);
+    return jsonError(errorMessage(error, "引擎运行失败。"), status);
   }
 }

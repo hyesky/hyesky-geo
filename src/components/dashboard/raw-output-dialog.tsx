@@ -152,7 +152,7 @@ function ModeToggle({ value, onChange }: { value: OutputMode; onChange: (mode: O
             value === mode ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {mode === "markdown" ? "Markdown" : "Preview"}
+          {mode === "markdown" ? "Markdown" : "预览"}
         </button>
       ))}
     </div>
@@ -236,19 +236,18 @@ export function RawOutputDialog({ row }: { row: ResultRow }) {
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="sm">
-          Raw
+          原始输出
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ProviderLogo id={row.engine} className="h-4 w-4" />
-            Engine output
+            引擎输出
           </DialogTitle>
           <DialogDescription>
-            {ENGINE_META[row.engine].label} · {row.citations.length} citation
-            {row.citations.length === 1 ? "" : "s"}
-            {officialCount > 0 ? " · includes official domain" : ""}
+            {ENGINE_META[row.engine].label} · {row.citations.length} 条引用
+            {officialCount > 0 ? " · 包含官方域名" : ""}
           </DialogDescription>
         </DialogHeader>
 
@@ -268,7 +267,7 @@ export function RawOutputDialog({ row }: { row: ResultRow }) {
         </div>
 
         <div className="flex items-center justify-between gap-3">
-          <p className="text-[11px] uppercase tracking-wider text-muted-foreground">Response</p>
+          <p className="text-[11px] uppercase tracking-wider text-muted-foreground">回答内容</p>
           <ModeToggle value={mode} onChange={setMode} />
         </div>
 
@@ -287,9 +286,9 @@ export function RawOutputDialog({ row }: { row: ResultRow }) {
         {row.citations.length > 0 ? (
           <div className="space-y-2">
             <p className="text-[11px] text-muted-foreground">
-              Stored citations
-              {officialCount > 0 ? " · green = official domain" : ""}
-              {inTextHighlights ? " · matches in the response are highlighted" : ""}
+              已存引用
+              {officialCount > 0 ? " · 绿色 = 官方域名" : ""}
+              {inTextHighlights ? " · 回答中的匹配已高亮" : ""}
             </p>
             <ol className="space-y-1.5">
               {row.citations.map((citation, index) => {
@@ -318,7 +317,7 @@ export function RawOutputDialog({ row }: { row: ResultRow }) {
                     )}
                     {official ? (
                       <span className="shrink-0 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-1.5 py-0 text-[10px] text-emerald-600 dark:text-emerald-400">
-                        Official
+                        官方
                       </span>
                     ) : null}
                   </li>

@@ -71,3 +71,49 @@ export async function queryQwen(apiKey: string, prompt: string): Promise<EngineO
     extra: { enable_search: true },
   });
 }
+
+export async function queryZhipu(apiKey: string, prompt: string): Promise<EngineOutput> {
+  return queryChatCompletions({
+    engine: "zhipu",
+    label: "Zhipu GLM",
+    apiKey,
+    url: "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+    model: "glm-4-flash",
+    prompt,
+    extra: { web_search_options: { search_requirement: { search_enable: true } } },
+  });
+}
+
+export async function queryKimi(apiKey: string, prompt: string): Promise<EngineOutput> {
+  return queryChatCompletions({
+    engine: "kimi",
+    label: "Kimi",
+    apiKey,
+    url: "https://api.moonshot.cn/v1/chat/completions",
+    model: "moonshot-v1-8k",
+    prompt,
+  });
+}
+
+export async function queryDoubao(apiKey: string, prompt: string): Promise<EngineOutput> {
+  return queryChatCompletions({
+    engine: "doubao",
+    label: "Doubao",
+    apiKey,
+    url: "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
+    model: "doubao-seed-1-6-250615",
+    prompt,
+    extra: { search: { enable: true } },
+  });
+}
+
+export async function queryHunyuan(apiKey: string, prompt: string): Promise<EngineOutput> {
+  return queryChatCompletions({
+    engine: "hunyuan",
+    label: "Hunyuan",
+    apiKey,
+    url: "https://api.hunyuan.cloud.tencent.com/v1/chat/completions",
+    model: "hunyuan-turbo-latest",
+    prompt,
+  });
+}

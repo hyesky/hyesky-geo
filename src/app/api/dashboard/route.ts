@@ -13,13 +13,13 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const brandId = searchParams.get("brandId") ?? searchParams.get("projectId");
-    if (!brandId) return jsonError("brandId is required.");
+    if (!brandId) return jsonError("brandId 必填。");
 
     const brand = await prisma.brand.findUnique({
       where: { id: brandId },
       include: { prompts: true },
     });
-    if (!brand) return jsonError("Brand not found.", 404);
+    if (!brand) return jsonError("未找到品牌。", 404);
 
     const results = await prisma.result.findMany({
       where: { prompt: { brandId } },
@@ -47,7 +47,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     return jsonError(
-      error instanceof Error ? error.message : "Failed to load dashboard.",
+      error instanceof Error ? error.message : "加载仪表盘失败。",
       500,
     );
   }

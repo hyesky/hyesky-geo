@@ -20,10 +20,10 @@ import { CATEGORY_META, ENGINE_META } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const STATUS_LABEL = {
-  cited: "Cited",
-  mentioned: "Mentioned",
-  prompted: "Prompted, not cited",
-  hidden: "Not visible",
+  cited: "已引用",
+  mentioned: "已提及",
+  prompted: "点名但未引用",
+  hidden: "不可见",
 } as const;
 
 const STATUS_ICON = {
@@ -49,8 +49,8 @@ export function ResultsTable({
   showBrand = false,
   showTime = false,
   pageSize,
-  emptyTitle = "No engine results yet",
-  emptyHint = "Save a brand, paste API keys, then run a sequential scan.",
+  emptyTitle = "还没有引擎结果",
+  emptyHint = "先保存品牌、填入 API 密钥，再运行一次顺序扫描。",
 }: {
   rows: ResultRow[];
   loading: boolean;
@@ -112,13 +112,13 @@ export function ResultsTable({
       <Table>
         <TableHeader>
           <TableRow>
-            {showTime ? <TableHead>Time</TableHead> : null}
-            {showBrand ? <TableHead>Brand</TableHead> : null}
-            <TableHead className="min-w-[280px]">Prompt</TableHead>
-            <TableHead>Engine</TableHead>
-            <TableHead className="w-14 text-center">Status</TableHead>
-            <TableHead className="whitespace-nowrap">Intercepted By</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            {showTime ? <TableHead>时间</TableHead> : null}
+            {showBrand ? <TableHead>品牌</TableHead> : null}
+            <TableHead className="min-w-[280px]">探针</TableHead>
+            <TableHead>引擎</TableHead>
+            <TableHead className="w-14 text-center">状态</TableHead>
+            <TableHead className="whitespace-nowrap">被谁拦截</TableHead>
+            <TableHead className="text-right">操作</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -204,7 +204,7 @@ export function ResultsTable({
       {pageSize && rows.length > 0 ? (
         <div className="flex items-center justify-between gap-3 border-t border-border px-4 py-3">
           <p className="font-mono text-[11px] text-muted-foreground">
-            {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, rows.length)} of {rows.length}
+            {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, rows.length)} / 共 {rows.length}
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -214,7 +214,7 @@ export function ResultsTable({
               onClick={() => setPage((current) => Math.max(1, current - 1))}
             >
               <ChevronLeft />
-              Prev
+              上一页
             </Button>
             <span className="font-mono text-[11px] text-muted-foreground">
               {page}/{totalPages}
@@ -225,7 +225,7 @@ export function ResultsTable({
               disabled={page >= totalPages}
               onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
             >
-              Next
+              下一页
               <ChevronRight />
             </Button>
           </div>
