@@ -1,5 +1,5 @@
 import { extractHttpUrls } from "@/lib/citations";
-import { formatProviderError } from "@/lib/engines/perplexity";
+import { formatProviderError } from "@/lib/engines/http";
 import type { EngineOutput } from "@/lib/types";
 
 type OpenAIResponse = {

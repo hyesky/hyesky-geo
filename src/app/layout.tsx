@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin()),
   title: "Hyesky GEO — AI 搜索可见性监控",
   description:
-    "开源的生成式引擎优化（GEO）雷达。跨 Perplexity、OpenAI、Gemini、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元等引擎统计品牌提及与引用。",
+    "开源的生成式引擎优化（GEO）雷达。跨 OpenAI、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元等引擎统计品牌提及与引用。",
 };
 
 const themeBootScript = `(function(){try{var t=localStorage.getItem("opencitex.theme");var d=t!=="light";document.documentElement.classList.toggle("dark",d);document.documentElement.style.colorScheme=d?"dark":"light";}catch(e){document.documentElement.classList.add("dark");document.documentElement.style.colorScheme="dark";}})();`;

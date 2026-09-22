@@ -7,9 +7,9 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/hyesky/hyesky-geo)
 
-**Hyesky GEO** is a privacy-first, BYOK monitor for Perplexity, OpenAI, Gemini, DeepSeek, Qwen, Zhipu GLM, Kimi (Moonshot), Doubao (Volcano Ark), and Tencent Hunyuan. It scores whether those engines mention your brand, cite your domain, or hand the answer to a competitor.
+**Hyesky GEO** is a privacy-first, BYOK monitor for OpenAI, DeepSeek, Qwen, Zhipu GLM, Kimi (Moonshot), Doubao (Volcano Ark), and Tencent Hunyuan. It scores whether those engines mention your brand, cite your domain, or hand the answer to a competitor.
 
-**Hyesky GEO** 是一款隐私优先、自带密钥的监控工具，支持 Perplexity、OpenAI、Gemini、DeepSeek、Qwen（通义千问）、智谱 GLM、Kimi（月之暗面）、豆包（火山方舟）和腾讯混元。它统计这些引擎是否提及你的品牌、是否引用你的域名，或是否把答案推给了竞品。
+**Hyesky GEO** 是一款隐私优先、自带密钥的监控工具，支持 OpenAI、DeepSeek、Qwen（通义千问）、智谱 GLM、Kimi（月之暗面）、豆包（火山方舟）和腾讯混元。它统计这些引擎是否提及你的品牌、是否引用你的域名，或是否把答案推给了竞品。
 
 Self-hosted. Your keys. One admin password. No SaaS markup.
 自托管。你的密钥。一个管理员密码。无 SaaS 加成。
@@ -27,7 +27,7 @@ Self-hosted. Your keys. One admin password. No SaaS markup.
   **自带密钥** — 各厂商密钥以 AES-256-GCM 加密存储于 Postgres，永不回传浏览器
 - **Optional analysis model** — pick one saved provider to catch brand mentions that string matching misses; citations stay URL-based
   **可选分析模型** — 可选一个已保存的厂商做智能判定，弥补字符串匹配的漏判；引用仍基于 URL
-- **Multi-engine scans** — Perplexity `sonar`, OpenAI `gpt-4o` + web search, Gemini + Google Search grounding, DeepSeek `deepseek-chat`, Qwen `qwen-plus`, Zhipu `glm-4-flash`, Kimi `moonshot-v1-8k`, Doubao `doubao-seed`, Hunyuan `hunyuan-turbo-latest`
+- **Multi-engine scans** — OpenAI `gpt-4o` + web search, DeepSeek `deepseek-chat`, Qwen `qwen-plus`, Zhipu `glm-4-flash`, Kimi `moonshot-v1-8k`, Doubao `doubao-seed`, Hunyuan `hunyuan-turbo-latest`
   **多引擎扫描** — 9 家国内外引擎，其中 6 家为国内大模型厂商
 - **Visibility scoring** — unprompted mention rate, citation rate, category/scenario interception rate, and average citation rank
   **可见性评分** — 未点名提及率、引用率、品类/场景拦截率与平均引用排名

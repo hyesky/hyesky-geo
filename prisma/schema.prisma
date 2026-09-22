@@ -15,9 +15,7 @@ enum PromptCategory {
 }
 
 enum Engine {
-  perplexity
   openai
-  gemini
   deepseek
   qwen
   zhipu

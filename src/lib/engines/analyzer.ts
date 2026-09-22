@@ -1,4 +1,4 @@
-import { formatProviderError } from "@/lib/engines/perplexity";
+import { formatProviderError } from "@/lib/engines/http";
 import { ANALYZER_MODELS, type ProviderId } from "@/lib/types";
 
 const SYSTEM = `You classify whether an AI-search answer mentions a target brand.
@@ -75,38 +75,6 @@ async function chatCompletionsJson(input: {
   return data.choices?.[0]?.message?.content ?? "";
 }
 
-async function geminiJson(apiKey: string, user: string) {
-  const model = ANALYZER_MODELS.gemini;
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ role: "user", parts: [{ text: `${SYSTEM}\n\n${user}` }] }],
-      generationConfig: {
-        temperature: 0,
-        responseMimeType: "application/json",
-      },
-    }),
-    signal: AbortSignal.timeout(45_000),
-  });
-  const body = await response.text();
-  if (!response.ok) {
-    throw new Error(formatProviderError("Gemini", response.status, body));
-  }
-  const data = JSON.parse(body) as {
-    candidates?: { content?: { parts?: { text?: string }[] } }[];
-    error?: { message?: string };
-  };
-  if (data.error?.message) throw new Error(`Gemini error: ${data.error.message}`);
-  return (
-    data.candidates?.[0]?.content?.parts
-      ?.map((part) => part.text ?? "")
-      .join("\n")
-      .trim() ?? ""
-  );
-}
-
 export async function classifyBrandMention(input: {
   engine: ProviderId;
   apiKey: string;
@@ -121,9 +89,6 @@ export async function classifyBrandMention(input: {
   try {
     let text = "";
     switch (input.engine) {
-      case "gemini":
-        text = await geminiJson(input.apiKey, user);
-        break;
       case "openai":
         text = await chatCompletionsJson({
           label: "OpenAI",
@@ -149,16 +114,6 @@ export async function classifyBrandMention(input: {
           apiKey: input.apiKey,
           model,
           user,
-        });
-        break;
-      case "perplexity":
-        text = await chatCompletionsJson({
-          label: "Perplexity",
-          url: "https://api.perplexity.ai/chat/completions",
-          apiKey: input.apiKey,
-          model,
-          user,
-          extra: { response_format: undefined },
         });
         break;
       default:

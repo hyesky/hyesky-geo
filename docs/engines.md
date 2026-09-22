@@ -6,9 +6,7 @@ Scans only run providers that have a **saved key**. Run scan lists the rest as �
 
 | Provider | Scan model | Notes |
 | --- | --- | --- |
-| Perplexity | `sonar` | Native search |
 | OpenAI | `gpt-4o` | Web search enabled for scans |
-| Gemini | `gemini-3.6-flash` | Google Search grounding |
 | DeepSeek | `deepseek-chat` | OpenAI-compatible API（国产） |
 | Qwen | `qwen-plus` | DashScope-compatible API + search（国产） |
 | Zhipu GLM | `glm-4-flash` | OpenAI-compatible API（国产） |
@@ -41,4 +39,4 @@ Pick a cheap provider. The extra request counts against that key’s quota.
 - Hint (last 4 characters) may be shown in the UI; the full key is not returned to the browser.
 - `/api/run` decrypts only for that request.
 
-Get keys from the provider consoles (linked from the API Keys placeholders): Perplexity, OpenAI, Google AI Studio, DeepSeek, Alibaba Cloud Bailian / DashScope, Zhipu AI 开放平台, Moonshot 平台, 火山方舟, 腾讯混元控制台.
+Get keys from the provider consoles (linked from the API Keys placeholders): OpenAI, DeepSeek, Alibaba Cloud Bailian / DashScope, Zhipu AI 开放平台, Moonshot 平台, 火山方舟, 腾讯混元控制台.

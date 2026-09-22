@@ -11,9 +11,7 @@ import { ENGINE_META, PROVIDER_IDS, type EngineId } from "@/lib/types";
 import { cn, formatPercent } from "@/lib/utils";
 
 const ENGINE_COLORS: Record<EngineId, string> = {
-  perplexity: "#1FB8CD",
   openai: "#10a37f",
-  gemini: "#8E75B2",
   deepseek: "#4D6BFE",
   qwen: "#615CED",
   zhipu: "#3859FF",

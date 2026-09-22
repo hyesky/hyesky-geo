@@ -1,5 +1,5 @@
 import { extractHttpUrls } from "@/lib/citations";
-import { formatProviderError } from "@/lib/engines/perplexity";
+import { formatProviderError } from "@/lib/engines/http";
 import type { EngineId, EngineOutput } from "@/lib/types";
 import { unique } from "@/lib/utils";
 

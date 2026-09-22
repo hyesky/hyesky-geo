@@ -16,7 +16,7 @@ async function main() {
       targetDomain: "hyesky.com",
       aliases: ["Hyesky", "hyesky-geo"],
       industryCategory: "AI 搜索可见性监控",
-      description: "监控 ChatGPT、Perplexity、Gemini、DeepSeek、智谱、Kimi、豆包、混元等引擎是否引用我的域名",
+      description: "监控 ChatGPT、OpenAI、DeepSeek、智谱、Kimi、豆包、混元等国内主流引擎是否引用我的域名",
       language: "zh",
       competitors: ["Profound", "Goodie AI", "Peec AI"],
     },

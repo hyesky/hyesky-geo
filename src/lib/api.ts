@@ -2,9 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export const engineSchema = z.enum([
-  "perplexity",
   "openai",
-  "gemini",
   "deepseek",
   "qwen",
   "zhipu",

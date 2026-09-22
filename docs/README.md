@@ -29,9 +29,7 @@ Dashboard rates **exclude probes that already name your brand**, so repeating yo
 
 | UI name | Model (scan) | Search |
 | --- | --- | --- |
-| Perplexity | `sonar` | Built in |
 | OpenAI | `gpt-4o` | Web search tool |
-| Gemini | `gemini-3.6-flash` | Google Search grounding |
 | DeepSeek | `deepseek-chat` | Provider search (when available) |
 | Qwen | `qwen-plus` | Provider search (when available) |
 

@@ -18,9 +18,7 @@ export const dynamic = "force-dynamic";
 
 const keyPatchSchema = z
   .object({
-    perplexity: z.string().nullable().optional(),
     openai: z.string().nullable().optional(),
-    gemini: z.string().nullable().optional(),
     deepseek: z.string().nullable().optional(),
     qwen: z.string().nullable().optional(),
     zhipu: z.string().nullable().optional(),
@@ -37,9 +35,7 @@ const paceValue = z.number().min(MIN_PACE_SEC * 1000).max(MAX_PACE_SEC * 1000);
 const pacePatchSchema = z.object({
   paceMs: z
     .object({
-      perplexity: paceValue.optional(),
       openai: paceValue.optional(),
-      gemini: paceValue.optional(),
       deepseek: paceValue.optional(),
       qwen: paceValue.optional(),
       zhipu: paceValue.optional(),

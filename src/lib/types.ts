@@ -1,9 +1,7 @@
 import type { Engine, PromptCategory } from "@prisma/client";
 
 export const PROVIDER_IDS = [
-  "perplexity",
   "openai",
-  "gemini",
   "deepseek",
   "qwen",
   "zhipu",
@@ -18,9 +16,7 @@ export type EngineId = Engine;
 
 export function emptyKeys(): ApiKeys {
   return {
-    perplexity: "",
     openai: "",
-    gemini: "",
     deepseek: "",
     qwen: "",
     zhipu: "",
@@ -32,9 +28,7 @@ export function emptyKeys(): ApiKeys {
 
 export function emptyHints(): KeyHints {
   return {
-    perplexity: null,
     openai: null,
-    gemini: null,
     deepseek: null,
     qwen: null,
     zhipu: null,
@@ -91,26 +85,12 @@ export const ENGINE_META: Record<
   EngineId,
   { label: string; model: string; accent: string; placeholder: string; docs: string }
 > = {
-  perplexity: {
-    label: "Perplexity",
-    model: "sonar",
-    accent: "text-foreground",
-    placeholder: "pplx-...",
-    docs: "https://www.perplexity.ai/settings/api",
-  },
   openai: {
     label: "OpenAI",
     model: "gpt-4o",
     accent: "text-foreground",
     placeholder: "sk-...",
     docs: "https://platform.openai.com/api-keys",
-  },
-  gemini: {
-    label: "Gemini",
-    model: "gemini-3.6-flash",
-    accent: "text-foreground",
-    placeholder: "AIza...",
-    docs: "https://aistudio.google.com/apikey",
   },
   deepseek: {
     label: "DeepSeek",
@@ -197,9 +177,7 @@ export type ProviderPaceMs = Record<ProviderId, number>;
 
 export function emptyPaceMs(): ProviderPaceMs {
   return {
-    perplexity: DEFAULT_PACE_MS,
     openai: DEFAULT_PACE_MS,
-    gemini: DEFAULT_PACE_MS,
     deepseek: DEFAULT_PACE_MS,
     qwen: DEFAULT_PACE_MS,
     zhipu: DEFAULT_PACE_MS,
@@ -223,9 +201,7 @@ export function normalizePaceMs(value: unknown): ProviderPaceMs {
 
 /** Chat models used when classifying scan answers. No web search. */
 export const ANALYZER_MODELS: Record<ProviderId, string> = {
-  perplexity: "sonar",
   openai: "gpt-4o-mini",
-  gemini: "gemini-3.6-flash",
   deepseek: "deepseek-chat",
   qwen: "qwen-plus",
   zhipu: "glm-4-flash",

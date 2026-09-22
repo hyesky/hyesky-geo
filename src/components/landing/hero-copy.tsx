@@ -18,7 +18,7 @@ export function HeroCopy() {
       </h1>
       <p className="mt-4 text-base leading-relaxed text-muted-foreground">
         <PrintText
-          text="Hyesky GEO 使用你自己的密钥，向 Perplexity、OpenAI、Gemini、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元等引擎发起探针，然后统计提及率、引用率与竞品拦截率——让你看清生成式搜索在哪里抹掉了你的品牌。"
+          text="Hyesky GEO 使用你自己的密钥，向 OpenAI、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元等引擎发起探针，然后统计提及率、引用率与竞品拦截率——让你看清生成式搜索在哪里抹掉了你的品牌。"
           speed={8}
           delay={1700}
           caret={false}

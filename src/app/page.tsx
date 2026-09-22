@@ -100,7 +100,7 @@ export default function HomePage() {
             {
               icon: KeyRound,
               title: "自带密钥，静态加密",
-              body: "Perplexity、OpenAI、Gemini、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元的密钥都以 AES-256-GCM 加密存储在 Postgres 中。浏览器永远不会回读；/api/run 仅在单次请求内解密。",
+              body: "OpenAI、DeepSeek、Qwen、智谱 GLM、Kimi、豆包、腾讯混元的密钥都以 AES-256-GCM 加密存储在 Postgres 中。浏览器永远不会回读；/api/run 仅在单次请求内解密。",
             },
             {
               icon: Rows3,

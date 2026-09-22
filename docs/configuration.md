@@ -2,7 +2,7 @@
 
 Copy `.env.example` to `.env` locally, or set the same names in Vercel / your host.
 
-**Do not** put Perplexity, OpenAI, Gemini, DeepSeek, or Qwen API keys in env. Paste them in **API Keys** after login. The server encrypts them with AES-256-GCM.
+**Do not** put OpenAI, DeepSeek, or Qwen API keys in env. Paste them in **API Keys** after login. The server encrypts them with AES-256-GCM.
 
 ## Required
 
